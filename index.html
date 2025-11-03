@@ -17,7 +17,22 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 </head>
+
 <body>
+
+<div class="container">
+<h1>Väderapp</h1>
+<input id="cityInput" type="text" placeholder="Ange stad..." />
+<button id="searchBtn">Sök</button>
+<div id="weatherResult" class="card hidden">
+<h2 id="cityName"></h2>
+<p id="temperature"></p>
+<p id="description"></p>
+<span id="icon"></span>
+<p id="updatedTime"></p>
+</div>
+</div>
     
 </body>
+
 </html>
