@@ -142,6 +142,42 @@ body {
     transform: translateX(22px);
   }
 }
+
+#weather-container {
+    gap: 50px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#weather-container > div {
+    background-color: var(--light-grey);
+    color: var(--dark-blue);
+    width: 120px;
+    height: 120px;
+    padding: 10px 20px 10px 20px;
+    border-radius: 15px;
+    box-shadow:  5px 5px 10px var(--dark-blue);
+    text-align: center;
+}
+
+/* text storlek / decoration */
+
+.weather-boxes > *  {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#temp, #time, #unit {
+    font-weight: 900;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.biggerfont {
+    font-size: 1.5rem;
 #cityInput {
   padding: 10px;
   width: 250px;
