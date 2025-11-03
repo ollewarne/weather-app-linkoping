@@ -15,11 +15,31 @@
     <!-- google font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
+    <header class="site-header">
+        <div class="header__brand">VAD BLIR DET FÖR VÄDER?</div>
+
+        <div class="header__unit">
+            <span class="unit-label left">CELSIUS</span>
+
+            <input
+            type="checkbox"
+            id="unitSwitch"
+            class="unit-switch__input"
+            aria-label="Byt mellan Celsius och Fahrenheit"
+            />
+
+            <label for="unitSwitch" class="unit-switch__track"></label>
+
+            <span class="unit-label right">FAHRENHEIT</span>
+        </div>
+    </header>
+
+    
 <div class="container">
 <h1>Väderapp</h1>
 <input id="cityInput" type="text" placeholder="Ange stad..." />
@@ -32,6 +52,23 @@
 <p id="updatedTime"></p>
 </div>
 </div>
+
+
+
+<section class="main-cloud">
+
+    <div class="cloud-container">
+        <div class="cloud">
+            <i class="fa-solid fa-cloud"></i>
+        </div>
+
+        <div class="search">
+            <input type="text">
+        </div>
+
+    </div>
+
+</section>
 
 
 </body>

@@ -12,7 +12,135 @@ body {
     flex-direction: column;
     align-items: center;
     height: 100vh;
-    font-family: "Inter", sans-serif;
+    font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+   
+.site-header {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 48px;
+  align-items: center;
+  background: var(--background);
+  color: var(--light-grey);
+  width: 100%;
+  padding: 0px 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.site-header {
+  grid-area: 1 / 1 / 2 / 13;
+}
+
+.header__brand {
+  grid-area: 1 / 2 / 2 / 6; 
+}
+
+.header__unit {
+  grid-area: 1 / 8 / 2 / 12;
+}
+.header__brand {
+  font-family: "Cherry Bomb One", cursive;
+  font-weight: 400;
+  font-size: 1rem; 
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.25);
+  white-space: nowrap;
+}
+.header__unit {
+  align-self: center;
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding-right: 12px;
+}
+
+.unit-label {
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #ffffff;
+  opacity: 0.8;
+}
+
+.unit-switch__input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.unit-switch__track {
+  width: 48px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--grey);
+  position: relative;
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+}
+
+.unit-switch__track::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--dark-blue);
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+  transition: transform 160ms ease;
+}
+
+.unit-switch__input:checked + .unit-switch__track::after {
+  transform: translateX(24px);
+}
+/* Mobil*/
+@media (max-width: 640px) {
+  .site-header {
+    grid-template-columns: 1fr;
+    grid-template-rows: 44px 44px;
+    height: auto;
+    padding: 4px 10px;
+  }
+
+  .header__brand {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    justify-self: center;
+    align-self: center;
+    font-size: 0.9rem;            
+    letter-spacing: 0.05em;
+  }
+
+  .header__unit {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    justify-self: center;
+    align-self: center;
+    gap: 8px;                       
+  }
+
+  .unit-label {
+    font-size: 0.7rem;             
+  }
+
+  .unit-switch__track {
+    width: 44px;
+    height: 22px;
+  }
+
+  .unit-switch__track::after {
+    width: 16px;
+    height: 16px;
+  }
+
+  .unit-switch__input:checked + .unit-switch__track::after {
+    transform: translateX(22px);
+  }
 }
 #cityInput {
   padding: 10px;
