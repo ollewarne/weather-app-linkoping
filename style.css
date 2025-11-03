@@ -165,10 +165,7 @@ body {
 
 /* text storlek / decoration */
 
-.main-cloud {
-  display: flex;
-  justify-content: center;
-}
+
 
 .weather-boxes > *  {
     margin-top: 0;
@@ -189,8 +186,14 @@ body {
 
 
 /* CLOUD & SEARCH */
+
+.main-cloud {
+  display: flex;
+  justify-content: center;
+}
+
 .cloud-container {
-    width: 50vw;
+    width: 35vw;
     display: grid;
     grid-template: 2fr 1fr / 1fr;
 }
