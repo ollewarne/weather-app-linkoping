@@ -157,6 +157,7 @@ body {
     width: 120px;
     height: 120px;
     padding: 10px 20px 10px 20px;
+    border: solid 2px var(--dark-blue);
     border-radius: 15px;
     box-shadow:  5px 5px 10px var(--dark-blue);
     text-align: center;
