@@ -1,3 +1,5 @@
+const mockWeather = require(mock_weather.js)
+
 const apiKey = "DIN_API_KEY_HÄR";
 const searchBtn = document.getElementById("searchBtn");
 const cityInput = document.getElementById("cityInput");
