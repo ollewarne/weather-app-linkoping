@@ -38,22 +38,7 @@
             <span class="unit-label right">FAHRENHEIT</span>
         </div>
     </header>
-
     
-<div class="container">
-<h1>Väderapp</h1>
-<input id="cityInput" type="text" placeholder="Ange stad..." />
-<button id="searchBtn">Sök</button>
-<div id="weatherResult" class="card hidden">
-<h2 id="cityName"></h2>
-<p id="temperature"></p>
-<p id="description"></p>
-<span id="icon"></span>
-<p id="updatedTime"></p>
-</div>
-</div>
-
-
 <section class="main-cloud">
 
     <div class="cloud-container">
@@ -66,6 +51,26 @@
         </div>
 
     </div>
+
+    <section>
+        <div id="weather-container">
+            <div class="weather-boxes">
+                <p class="underline">GRADER</p>
+                <p class="biggerfont"><span id="temp">6</span><span id="unit"> °C</span><p>
+                <p id="toggle-scale">Celsius</p>
+            </div>
+            <div class="weather-boxes">
+                <p class="underline">VÄDER</p>
+                <span id="icon">ikon</span>
+                <p><span>Molnigt</span></p>
+            </div>
+            <div class="weather-boxes">
+                <p class="underline">PLATS & TID</p>
+                <span class="biggerfont" id="time">TIME</span>
+                <p id="location">Linköping</p>
+            </div>
+        </div>
+    </section>
 
 </section>
 
