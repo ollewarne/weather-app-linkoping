@@ -1,4 +1,3 @@
-
 const apiKey = "DIN_API_KEY_HÄR";
 const searchBtn = document.getElementById("searchBtn");
 const cityInput = document.getElementById("cityInput");
@@ -9,7 +8,7 @@ searchBtn.addEventListener("click", async () => {
   if (city === "") return (result.textContent = "Skriv in en stad!");
 
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=sv`;
-  
+
   try {
     const res = await fetch(url);
     if (!res.ok) throw new Error("Staden hittades inte");
@@ -24,3 +23,15 @@ searchBtn.addEventListener("click", async () => {
     result.textContent = err.message;
   }
 });
+
+const checkbox = document.getElementById("unitSwitch");
+
+function convertTemperature(temperature) {
+  let fahrenheit = checkbox.checked;
+
+  if (fahrenheit) {
+    return Math.round((((temperature - 32) * 5) / 9) * 10) / 10;
+  } else {
+    return Math.round(((temperature * 9) / 5 + 32) * 10) / 10;
+  }
+}
