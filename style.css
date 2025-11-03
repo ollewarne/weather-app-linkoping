@@ -257,3 +257,11 @@ body {
 }
 
 /* ----- END ----- CLOUD & SEARCH */
+
+/* ----- STARY ----- DISPLAY TEXT */
+.display-text p {
+  color: white;
+  font-size: 1.8vw;
+  font-weight: 200;
+}
+/* ----- END ----- DISPLAY TEXT */
