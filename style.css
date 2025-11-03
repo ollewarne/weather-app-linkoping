@@ -13,7 +13,8 @@ body {
     align-items: center;
     height: 100vh;
     font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-}
+    background-color: var(--background);
+  }
    
 .site-header {
   display: grid;
@@ -163,6 +164,11 @@ body {
 
 /* text storlek / decoration */
 
+.main-cloud {
+  display: flex;
+  justify-content: center;
+}
+
 .weather-boxes > *  {
     margin-top: 0;
     margin-bottom: 0;
@@ -178,36 +184,41 @@ body {
 
 .biggerfont {
     font-size: 1.5rem;
-#cityInput {
-  padding: 10px;
-  width: 250px;
-  border: 2px solid #0984e3;
-  border-radius: 8px;
-  font-size: 16px;
-  outline: none;
 }
 
-#searchBtn {
-  padding: 10px 15px;
-  margin-left: 10px;
-  background-color: #0984e3;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
+
+/* CLOUD & SEARCH */
+.cloud-container {
+    width: 50vw;
+    display: grid;
+    grid-template: 2fr 1fr / 1fr;
 }
 
-#searchBtn:hover {
-  background-color: #74b9ff;
+.cloud {
+    grid-area: 1 / 1 / span 2 / span 1;
+    text-align: center;
 }
 
-#weatherResult {
-  margin-top: 30px;
-  font-size: 18px;
-  background-color: rgba(255, 255, 255, 0.7);
-  padding: 20px;
-  border-radius: 10px;
-  display: inline-block;
-  min-width: 200px;
+.cloud-shape {
+  fill: white;
+  stroke: var(--dark-blue);
+  stroke-width: 4px;
+  filter: drop-shadow(0 7px 4px rgba(0,0,0,0.5));
+}
+
+.search {
+    grid-area: 2 / 1 / span 1 / span 1;
+    z-index: 2;
+    text-align: center;
+}
+
+.search input {
+    background-color: var(--light-grey);
+    border: none;
+    border-radius: 10px;
+    padding: 1.5vw;
+}
+
+.search input::placeholder {
+    color: var(--dark-blue);
 }
