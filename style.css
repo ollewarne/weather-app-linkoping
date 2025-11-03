@@ -144,6 +144,9 @@ body {
   }
 }
 
+
+/* temperature boxes */
+
 #weather-container {
     gap: 50px;
     display: flex;
@@ -163,13 +166,16 @@ body {
     text-align: center;
 }
 
-/* text storlek / decoration */
+#icon, #time {
+    display: block;
+}
 
 
+/* boxes decoration */
 
-.weather-boxes > *  {
+.weather-boxes > p, #icon, #time {
     margin-top: 0;
-    margin-bottom: 0;
+    margin-bottom: 10px;
 }
 
 #temp, #time, #unit {
@@ -177,7 +183,20 @@ body {
 }
 
 .underline {
-    text-decoration: underline;
+    position: relative;
+    display: block;
+    text-align: center;
+    padding-bottom: 2px;
+}
+
+.underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--dark-blue);
 }
 
 .biggerfont {
