@@ -185,7 +185,7 @@ body {
 }
 
 
-/* CLOUD & SEARCH */
+/* ----- START ----- CLOUD & SEARCH */
 
 .main-cloud {
   display: flex;
@@ -226,3 +226,15 @@ body {
 .search input::placeholder {
     color: var(--dark-blue);
 }
+
+.search i {
+    color: var(--dark-blue);
+    padding-left: 2%;
+    font-size: 1.5vw;
+}
+
+.search i:hover {
+    cursor: pointer;
+}
+
+/* ----- END ----- CLOUD & SEARCH */
