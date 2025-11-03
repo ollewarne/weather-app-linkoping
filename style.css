@@ -142,3 +142,36 @@ body {
     transform: translateX(22px);
   }
 }
+#cityInput {
+  padding: 10px;
+  width: 250px;
+  border: 2px solid #0984e3;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+}
+
+#searchBtn {
+  padding: 10px 15px;
+  margin-left: 10px;
+  background-color: #0984e3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#searchBtn:hover {
+  background-color: #74b9ff;
+}
+
+#weatherResult {
+  margin-top: 30px;
+  font-size: 18px;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 20px;
+  border-radius: 10px;
+  display: inline-block;
+  min-width: 200px;
+}

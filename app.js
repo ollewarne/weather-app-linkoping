@@ -7,6 +7,9 @@ searchBtn.addEventListener("click", async () => {
   const city = cityInput.value.trim();
   if (city === "") return (result.textContent = "Skriv in en stad!");
 
+  
+  
+
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=sv`;
 
   try {
@@ -17,6 +20,7 @@ searchBtn.addEventListener("click", async () => {
     result.innerHTML = `
       <h2>${data.name}</h2>
       <p>🌡️ ${data.main.temp} °C</p>
+    
       <p>☁️ ${data.weather[0].description}</p>
     `;
   } catch (err) {
