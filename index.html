@@ -50,8 +50,8 @@
                 </div>
 
                 <div class="search">
-                    <input type="text" placeholder="Sök efter en stad">
-                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input id="search-field" type="text" placeholder="Sök efter en stad">
+                    <button id="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </div>
             </div>
         </section>
@@ -59,7 +59,8 @@
 
         <!-- START -- DISPLAY TEXT -->
         <section class="display-text">
-            <p>Idag klockan {time} i {stad} är det {väder} med en temperatur på {temp} {temp-scale}.</p>
+            <p id="display-text">Idag klockan {time} i {stad} är det {väder} med en temperatur på {temp} {unit}.
+            </p>
         </section>
         <!-- END -- DISPLAY TEXT -->
 
@@ -73,7 +74,7 @@
                 <div class="weather-boxes">
                     <p class="underline">VÄDER</p>
                     <span id="icon">ikon</span>
-                    <p><span>Molnigt</span></p>
+                    <p><span id="weather">Molnigt</span></p>
                 </div>
                 <div class="weather-boxes">
                     <p class="underline">PLATS & TID</p>
