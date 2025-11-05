@@ -13,7 +13,8 @@ body {
     align-items: center;
     height: 100vh;
     font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-}
+    background-color: var(--background);
+  }
    
 .site-header {
   display: grid;
@@ -143,6 +144,9 @@ body {
   }
 }
 
+
+/* temperature boxes */
+
 #weather-container {
     gap: 50px;
     display: flex;
@@ -156,16 +160,22 @@ body {
     width: 120px;
     height: 120px;
     padding: 10px 20px 10px 20px;
+    border: solid 2px var(--dark-blue);
     border-radius: 15px;
     box-shadow:  5px 5px 10px var(--dark-blue);
     text-align: center;
 }
 
-/* text storlek / decoration */
+#icon, #time {
+    display: block;
+}
 
-.weather-boxes > *  {
+
+/* boxes decoration */
+
+.weather-boxes > p, #icon, #time {
     margin-top: 0;
-    margin-bottom: 0;
+    margin-bottom: 10px;
 }
 
 #temp, #time, #unit {
@@ -173,42 +183,88 @@ body {
 }
 
 .underline {
-    text-decoration: underline;
+    position: relative;
+    display: block;
+    text-align: center;
+    padding-bottom: 2px;
+}
+
+.underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--dark-blue);
 }
 
 .biggerfont {
     font-size: 1.5rem;
-#cityInput {
-  padding: 10px;
-  width: 250px;
-  border: 2px solid #0984e3;
-  border-radius: 8px;
-  font-size: 16px;
-  outline: none;
 }
 
-#searchBtn {
-  padding: 10px 15px;
-  margin-left: 10px;
-  background-color: #0984e3;
+
+/* ----- START ----- CLOUD & SEARCH */
+
+.main-cloud {
+  display: flex;
+  justify-content: center;
+}
+
+.cloud-container {
+    width: 35vw;
+    display: grid;
+    grid-template: 2fr 1fr / 1fr;
+}
+
+.cloud {
+    grid-area: 1 / 1 / span 2 / span 1;
+    text-align: center;
+}
+
+.cloud-shape {
+  fill: white;
+  stroke: var(--dark-blue);
+  stroke-width: 4px;
+  filter: drop-shadow(0 7px 4px rgba(0,0,0,0.5));
+}
+
+.search {
+    grid-area: 2 / 1 / span 1 / span 1;
+    z-index: 2;
+    text-align: center;
+}
+
+.search input {
+    background-color: var(--light-grey);
+    border: none;
+    border-radius: 10px;
+    padding: 1.5vw;
+}
+
+.search input::placeholder {
+    color: var(--dark-blue);
+}
+
+.search i {
+    color: var(--dark-blue);
+    padding-left: 2%;
+    font-size: 1.5vw;
+}
+
+.search i:hover {
+    cursor: pointer;
+}
+
+/* ----- END ----- CLOUD & SEARCH */
+
+/* ----- STARY ----- DISPLAY TEXT */
+.display-text p {
   color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
+  font-size: 1.8vw;
+  font-weight: 200;
 }
 
-#searchBtn:hover {
-  background-color: #74b9ff;
-}
 
-#weatherResult {
-  margin-top: 30px;
-  font-size: 18px;
-  background-color: rgba(255, 255, 255, 0.7);
-  padding: 20px;
-  border-radius: 10px;
-  display: inline-block;
-  min-width: 200px;
-}
-}
+/* ----- END ----- DISPLAY TEXT */
+

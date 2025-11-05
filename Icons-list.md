@@ -77,6 +77,9 @@
 
 ## FONT AWESOME
 
-##### CLOUD
+##### Cloud
 `<i class="fa-solid fa-cloud"></i>`
+
+##### Search
+<i class="fa-solid fa-magnifying-glass"></i>
 
