@@ -5,20 +5,16 @@ const searchBtn = document.getElementById('search-button');
 
 const displayText = document.getElementById('display-text');
 
-let weatherData;
-
-
 // LYSSNARE Searchfield = key down & click
 searchField.addEventListener('keydown', async (event) => {
   if (event.key === 'Enter') {
     let searchValue = searchField.value;
     searchField.value = '';
 
-    weatherData = await getWeatherFromCity(searchValue)
+    let weatherData = await getWeatherFromCity(searchValue)
 
-    displayText.innerHTML = returnDisplayText(MOCK_WEATHER[searchValue], searchValue);
-    addBoxData(MOCK_WEATHER[searchValue], searchValue);
-
+    displayText.innerHTML = returnDisplayText(weatherData);
+    addBoxData(weatherData);
   }
 
 });
@@ -27,9 +23,9 @@ searchBtn.addEventListener('click', async (event) => {
   let searchValue = searchField.value;
   searchField.value = '';
 
-  weatherData = await getWeatherFromCity(searchValue)
-  displayText.innerHTML = returnDisplayText(MOCK_WEATHER[searchValue], searchValue);
-  addBoxData(MOCK_WEATHER[searchValue], searchValue);
+  let weatherData = await getWeatherFromCity(searchValue)
+  displayText.innerHTML = returnDisplayText(weatherData);
+  addBoxData(weatherData);
 });
 
 
@@ -37,26 +33,26 @@ let tempC
 let tempF
 
 // Function to modify Display-text
-function returnDisplayText(data, city) {
+function returnDisplayText(data) {
   let unit = '<i class="ri-celsius-line"></i>';
-  let temp = data.tempC;
+  let temp = data.temperature;
   tempC = temp;
 
   if (checkbox.checked) {
     unit = '<i class="ri-fahrenheit-line"></i>';
-    temp = convertTemperature(data.tempC);
+    temp = convertTemperature(data.temperature);
     tempF = temp;
   }
 
-  return `<p>Idag klockan ${data.updated} i ${city} är det ${data.description} med en temperatur på <span id="display-temp">${temp}</span> <span id="display-unit">${unit}</span> grader.</p>`
+  return `<p>Idag klockan ${data.time} i ${data.city} är det ${data.weather} med en temperatur på <span id="display-temp">${temp}</span> <span id="display-unit">${unit}</span> grader.</p>`
 }
 
 
 // Function to modify Boxes
-function addBoxData(data, city) {
+function addBoxData(data) {
   // FIRST box
   const temp = document.getElementById('temp');
-  temp.textContent = data.tempC;
+  temp.textContent = data.temperature;
 
   const unitType = document.getElementById('unit');
   const unitDescription = document.getElementById('toggle-scale');
@@ -67,25 +63,25 @@ function addBoxData(data, city) {
     unit = '<i class="ri-fahrenheit-line"></i>';
     unitDescription.textContent = 'Fahrenheit';
 
-    temp.textContent = convertTemperature(data.tempC);
+    temp.textContent = convertTemperature(data.temperature);
   };
 
   unitType.innerHTML = unit;
 
   // MIDDLE box
-  const icon = document.getElementById('icon');
-  icon.textContent = data.icon;
+  //const icon = document.getElementById('icon');
+  //icon.textContent = data.icon;
 
   const weather = document.getElementById('weather');
-  weather.textContent = data.description;
+  weather.textContent = data.weather;
 
   // LAST box
 
   const time = document.getElementById('time');
-  time.textContent = data.updated
+  time.textContent = data.time
 
   const location = document.getElementById('location')
-  location.textContent = city
+  location.textContent = data.city
 }
 
 
