@@ -19,11 +19,16 @@ async function getTemperatureFromCoordinates(lat, lon, city) {
       throw new Error(console.log("Got HTTP-error ", response.status));
    const data = await response.json();
 
+   let date = data.current.time.split("T")[0]
+
+   let time = data.current.time.split("T")[1]
+
    return {
       city: city,
       temperature: data.current.temperature_2m,
       weather: weatherCodes[data.current.weather_code],
-      time: data.current.time,
+      time: time,
+      date: date,
       timeZone: data.timezone
    }
 }
