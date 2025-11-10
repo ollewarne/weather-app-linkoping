@@ -27,6 +27,7 @@ async function getTemperatureFromCoordinates(lat, lon, city) {
       city: city,
       temperature: data.current.temperature_2m,
       weather: weatherCodes[data.current.weather_code],
+      weatherCode: data.current.weatherCode,
       time: time,
       date: date,
       timeZone: data.timezone
