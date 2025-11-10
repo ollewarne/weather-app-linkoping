@@ -14,8 +14,12 @@ export class Weather {
     }
 
     createWeatherCard() {
-        const watchlist = document.getElementById("watch-list")
-
+        const weatherContainer = document.getElementById("weather-container")
+        let card = document.createElement("div")
+        card.classList.add("weather-card")
+        card.innerHTML = `<h2>${this.city} ${this.icon}</h2><p><span>${this.temperature}</span><span>${this.weather}</span></p>`
+        weatherContainer.replaceChildren("")
+        weatherContainer.appendChild(card)
     }
 
     async updateWeather() {
