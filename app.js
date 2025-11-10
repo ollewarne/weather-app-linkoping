@@ -1,17 +1,20 @@
-import { MOCK_WEATHER } from './mock_weather.js';
-
+import { getWeatherFromCity } from "./services/meteo.js";
 
 const searchField = document.getElementById('search-field');
 const searchBtn = document.getElementById('search-button');
 
 const displayText = document.getElementById('display-text');
 
+let weatherData;
+
 
 // LYSSNARE Searchfield = key down & click
-searchField.addEventListener('keydown', (event) => {
+searchField.addEventListener('keydown', async (event) => {
   if (event.key === 'Enter') {
     let searchValue = searchField.value;
     searchField.value = '';
+
+    weatherData = await getWeatherFromCity(searchValue)
 
     displayText.innerHTML = returnDisplayText(MOCK_WEATHER[searchValue], searchValue);
     addBoxData(MOCK_WEATHER[searchValue], searchValue);
@@ -20,10 +23,11 @@ searchField.addEventListener('keydown', (event) => {
 
 });
 
-searchBtn.addEventListener('click', (event) => {
+searchBtn.addEventListener('click', async (event) => {
   let searchValue = searchField.value;
   searchField.value = '';
 
+  weatherData = await getWeatherFromCity(searchValue)
   displayText.innerHTML = returnDisplayText(MOCK_WEATHER[searchValue], searchValue);
   addBoxData(MOCK_WEATHER[searchValue], searchValue);
 });
