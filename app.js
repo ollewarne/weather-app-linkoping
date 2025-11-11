@@ -10,14 +10,17 @@ const displayText = document.getElementById('display-text');
 const weatherArray = [];
 
 // LYSSNARE Searchfield = key down & click
+let theWeather 
+
+
 searchField.addEventListener('keydown', async (event) => {
   if (event.key === 'Enter') {
     let searchValue = searchField.value;
     searchField.value = '';
-
+    
     let weatherData = await getWeatherFromCity(searchValue)
+    theWeather = new Weather(weatherData)
 
-    let theWeather = new Weather(weatherData)
     weatherArray.push({[theWeather.city]: theWeather});
     console.log(weatherArray)
     theWeather.createWeatherCard()
@@ -166,3 +169,17 @@ checkbox.addEventListener('change', () => {
 
   console.log(`Växlat till ${showF ? 'Fahrenheit' : 'Celsius'}: ${newVal}`);
 });
+
+
+
+
+
+// ------------- ADD 2 WATCHLIST
+
+const add2watchlist = document.getElementById('add-2-watchlist');
+
+add2watchlist.addEventListener('click', () => {
+  theWeather.addToWatchlist()
+})
+
+
