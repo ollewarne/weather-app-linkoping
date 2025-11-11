@@ -13,10 +13,13 @@ export class Weather {
         this.timeZone = data.timezone,
         this.unitC = '<i class="ri-celsius-line"></i>',
         this.unitF = '<i class="ri-fahrenheit-line"></i>'
+
+        this.weatherContainer = document.getElementById("weather-container")
+        this.watchlist = document.getElementById("watchlist")
+
     }
 
     createWeatherCard() {
-        const weatherContainer = document.getElementById("weather-container")
         this.card = document.createElement("div")
         this.card.classList.add("weather-card")
         this.title = document.createElement("h2");
@@ -25,8 +28,8 @@ export class Weather {
         this.paragraph.innerHTML = `<span class="temp">${this.temperature}</span><span class="unit">${this.unitC}</span> <span class="description">${this.weather}</span>`
         this.card.appendChild(this.title);
         this.card.appendChild(this.paragraph);
-        weatherContainer.replaceChildren("")
-        weatherContainer.appendChild(this.card)
+        this.weatherContainer.replaceChildren("")
+        this.weatherContainer.appendChild(this.card)
     }
 
     async updateWeather() {
@@ -56,6 +59,15 @@ export class Weather {
     }
 
     addToWatchlist() {
+        this.weatherContainer.removeChild(this.card)
+        this.watchlist.appendChild(this.card)
 
+        this.card.addEventListener('click', () => {
+            this.removeCardFromWatchlist();
+        })
+    }
+
+    removeCardFromWatchlist() {
+        this.watchlist.removeChild(this.card)
     }
 }

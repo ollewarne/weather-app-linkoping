@@ -280,3 +280,7 @@ body {
 
 /* ----- END ----- DISPLAY TEXT */
 
+#watchlist {
+  display: flex;
+  flex-direction: column-reverse;
+}
