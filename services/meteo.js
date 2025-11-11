@@ -1,5 +1,5 @@
 import { createCordinatesURL, createTemperatureURL } from "./url.js";
-import { weatherCodes } from "./weatherCodes.js";
+import { weatherCodes } from "../utils/weatherCodes.js";
 
 export async function getWeatherFromCity(city) {
    const response = await fetch(createCordinatesURL(city));
