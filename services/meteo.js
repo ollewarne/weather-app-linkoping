@@ -9,8 +9,9 @@ export async function getWeatherFromCity(city) {
 
    let latitude = data.results[0].latitude;
    let longitude = data.results[0].longitude;
+   let cityName = data.results[0].name;
 
-   return await getTemperatureFromCoordinates(latitude, longitude, city)
+   return await getTemperatureFromCoordinates(latitude, longitude, cityName)
 }
 
 async function getTemperatureFromCoordinates(lat, lon, city) {

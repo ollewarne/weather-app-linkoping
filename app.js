@@ -1,10 +1,13 @@
 import { getWeatherFromCity } from "./services/meteo.js";
 import { TemperatureConverter } from './temperature.js';
+import { Weather } from "./utils/weatherClass.js";
 
 const searchField = document.getElementById('search-field');
 const searchBtn = document.getElementById('search-button');
 
 const displayText = document.getElementById('display-text');
+
+const weatherArray = [];
 
 // LYSSNARE Searchfield = key down & click
 searchField.addEventListener('keydown', async (event) => {
@@ -14,20 +17,26 @@ searchField.addEventListener('keydown', async (event) => {
 
     let weatherData = await getWeatherFromCity(searchValue)
 
+    let theWeather = new Weather(weatherData)
+    weatherArray.push({[theWeather.city]: theWeather});
+    console.log(weatherArray)
+    theWeather.createWeatherCard()
+    theWeather.changeUnit(TemperatureConverter.cToF, theWeather.temperature, "f")
+
     displayText.innerHTML = returnDisplayText(weatherData);
-    addBoxData(weatherData);
+//    addBoxData(weatherData);
   }
 
 });
 
-searchBtn.addEventListener('click', async (event) => {
-  let searchValue = searchField.value;
-  searchField.value = '';
-
-  let weatherData = await getWeatherFromCity(searchValue)
-  displayText.innerHTML = returnDisplayText(weatherData);
-  addBoxData(weatherData);
-});
+//searchBtn.addEventListener('click', async (event) => {
+//  let searchValue = searchField.value;
+//  searchField.value = '';
+//
+//  let weatherData = await getWeatherFromCity(searchValue)
+//  displayText.innerHTML = returnDisplayText(weatherData);
+//  addBoxData(weatherData);
+//});
 
 
 let tempC 
