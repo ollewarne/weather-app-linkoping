@@ -1,6 +1,9 @@
 import { getWeatherFromCity } from "./services/meteo.js";
 import { TemperatureConverter } from './temperature.js';
 import { Weather } from "./utils/weatherClass.js";
+import { initSearchListener } from './clock/searchListener.js';
+
+initSearchListener(); // aktiverar lyssnaren
 
 const searchField = document.getElementById('search-field');
 const searchBtn = document.getElementById('search-button');
