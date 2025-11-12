@@ -1,7 +1,7 @@
 import { getWeatherFromCity } from "./services/meteo.js";
-import { TemperatureConverter } from './utils/temperature.js';
-import { Weather } from "./compnents/weatherClass.js";
-import { initSearchListener } from '.components/clock/searchListener.js';
+import { TemperatureConverter } from './utils/temperatureConverter.js';
+import { Weather } from "./components/weatherClass.js";
+import { initSearchListener } from './components/clock/searchListener.js';
 
 initSearchListener(); // aktiverar lyssnaren
 

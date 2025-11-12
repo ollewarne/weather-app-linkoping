@@ -1,7 +1,7 @@
-import { Kl } from './clock-klass.js';
+import { TimeDisplay } from './clock-klass.js';
 
 export function showClock() {
-  const clock = new Kl({ elementId: 'clock' });
+  const clock = new TimeDisplay({ elementId: 'clock' });
   const el = document.getElementById(clock.elementId);
   if (!el) return;
 
@@ -13,7 +13,7 @@ export function showClock() {
 
   clock.time = now;
   el.textContent = `${clock.label} ${now}`;
-  console.log('Klockan visas:', now);
+  // console.log('The clock is displayed:', now);
 }
 
 

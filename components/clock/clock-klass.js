@@ -1,8 +1,8 @@
-export class Kl {
+export class TimeDisplay {
   constructor({
     elementId = 'clock',          
     timeZone  = 'Europe/Stockholm',
-    label     = 'Klockan är',    
+    label     = 'The time is',    
   } = {}) {
     this.elementId = elementId;   
     this.timeZone  = timeZone;     

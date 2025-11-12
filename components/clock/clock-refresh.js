@@ -1,6 +1,6 @@
 export function startClockRefresh({
   elementId = 'clock',
-  label = 'Klockan är',
+  label = 'Updated at',
   intervalMs = 10000,
 } = {}) {
   const el = document.getElementById(elementId);

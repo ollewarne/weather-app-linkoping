@@ -5,10 +5,10 @@ let stopClock = null;
 
 export function initSearchListener(buttonId = 'search-button') {
   const btn = document.getElementById(buttonId);
-  if (!btn) return console.warn('Kunde inte hitta sökknappen.');
+  if (!btn) return console.warn('Could not find the search button.');
 
   btn.addEventListener('click', () => {
-    console.log('Sökknappen trycktes på!');
+    // console.log('Search button was clicked!');
     showClock();                
 
     if (stopClock) stopClock(); 
