@@ -1,5 +1,4 @@
 import { getWeatherFromCity } from "../services/meteo.js";
-import { TemperatureConverter } from "../temperature.js";
 
 export class Weather {
 
