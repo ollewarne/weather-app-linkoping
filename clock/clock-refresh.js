@@ -1,4 +1,3 @@
-// Uppdaterar texten i #clock var 10 sek
 export function startClockRefresh({
   elementId = 'clock',
   label = 'Klockan är',
@@ -14,7 +13,7 @@ export function startClockRefresh({
     el.textContent = `${label} ${now}`;
   }
 
-  write(); // kör direkt
+  write(); 
   const id = setInterval(write, intervalMs);
-  return () => clearInterval(id); // stop-funktion
+  return () => clearInterval(id); 
 }

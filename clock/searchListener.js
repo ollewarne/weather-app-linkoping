@@ -1,7 +1,7 @@
 import { showClock } from './clock-init.js';
 import { startClockRefresh } from './clock-refresh.js';
 
-let stopClock = null; // håller stop-funktionen mellan klick
+let stopClock = null;
 
 export function initSearchListener(buttonId = 'search-button') {
   const btn = document.getElementById(buttonId);
@@ -9,9 +9,9 @@ export function initSearchListener(buttonId = 'search-button') {
 
   btn.addEventListener('click', () => {
     console.log('Sökknappen trycktes på!');
-    showClock();                 // bygg/visa klockan
+    showClock();                
 
-    if (stopClock) stopClock();  // stoppa ev. tidigare intervall
-    stopClock = startClockRefresh(); // starta uppdatering var 10s
+    if (stopClock) stopClock(); 
+    stopClock = startClockRefresh(); 
   });
 }
