@@ -1,5 +1,4 @@
 import { getWeatherFromCity } from "./services/meteo.js";
-import { TemperatureConverter } from './utils/temperatureConverter.js';
 import { Weather } from "./components/weatherClass.js";
 import { initSearchListener } from './components/clock/searchListener.js';
 
@@ -27,7 +26,7 @@ searchField.addEventListener('keydown', async (event) => {
     weatherArray.push({[theWeather.city]: theWeather});
     console.log(weatherArray)
     theWeather.createWeatherCard()
-    theWeather.changeUnit(TemperatureConverter.cToF, theWeather.temperature, "f")
+  
 
     //hidden text for screen readers
     displayText.innerHTML = returnDisplayText(weatherData);
@@ -45,58 +44,15 @@ searchField.addEventListener('keydown', async (event) => {
 //});
 
 
-let tempC 
-let tempF
 
-// Function to modify Display-text
-function returnDisplayText(data) {
-  let unit = '<i class="ri-celsius-line"></i>';
-  let temp = data.temperature;
-  tempC = temp;
-
-  if (checkbox.checked) {
-    unit = '<i class="ri-fahrenheit-line"></i>';
-    temp = TemperatureConverter.cToF(data.temperature);
-    tempF = temp;
-  }
-
-
-  return `<p>Idag klockan ${data.time} i ${data.city} är det ${data.weather} med en temperatur på <span id="display-temp">${temp}</span> <span id="display-unit">${unit}</span> grader.</p>`
-}
-
-// Toggle temp
+// // Toggle temp
 const checkbox = document.getElementById("unitSwitch"); // Hämtar checkbox-elementet från HTML med id "unitSwitch"
 
-
-// Växla C ↔ F när knappen byts
 checkbox.addEventListener('change', () => {
-  if (typeof tempC !== 'number') return; // inget värde ännu
+  theWeather.changeTemperatureAndUnit();
+})
 
-  const showF  = checkbox.checked;                   // true = F
-  const newVal = showF
-  ? TemperatureConverter.cToF(tempC)  // C → F
-  : tempC;                            // C
 
-  // Löptext
-  const displayTemp = document.getElementById('display-temp');
-  const displayUnit = document.getElementById('display-unit');
-  displayTemp.textContent = newVal;
-  displayUnit.innerHTML = showF
-    ? '<i class="ri-fahrenheit-line"></i>'
-    : '<i class="ri-celsius-line"></i>';
-
-  // Första boxen
-  const boxTemp  = document.getElementById('temp');
-  const unitType = document.getElementById('unit');
-  const unitDesc = document.getElementById('toggle-scale');
-  boxTemp.textContent = newVal;
-  unitType.innerHTML  = showF
-    ? '<i class="ri-fahrenheit-line"></i>'
-    : '<i class="ri-celsius-line"></i>';
-  unitDesc.textContent = showF ? 'Fahrenheit' : 'Celsius';
-
-  console.log(`Växlat till ${showF ? 'Fahrenheit' : 'Celsius'}: ${newVal}`);
-});
 
 // ------------- ADD 2 WATCHLIST
 
