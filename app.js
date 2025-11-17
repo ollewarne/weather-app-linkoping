@@ -45,6 +45,7 @@ export class App {
 
   //TODO: prevent that you can place two dom elements in weather container. The first should be replaced by the new one.
   placeDomElement(element) {
+    this.weatherContainer.replaceChildren("")
     this.weatherContainer.appendChild(element)
   }
 
