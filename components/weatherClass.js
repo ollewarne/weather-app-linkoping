@@ -85,6 +85,11 @@ export class Weather {
         this.card.addEventListener('click', (event) => {
             this.removeCardFromWatchlist(event);
         })
+
+        let closeIcon = document.createElement('i');
+        closeIcon.classList.add('ri-close-large-line');
+
+        this.card.appendChild(closeIcon);
     }
 
     removeCardFromWatchlist(event) {

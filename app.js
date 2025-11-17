@@ -54,6 +54,7 @@ export class App {
 
     // this.storedWeather.push({[this.currentWeatherSearch.cityId]: this.currentWeatherSearch});
     // this.weatherContainer.removeChild(this.currentWeatherSearch.card);
+
     this.watchlist.appendChild(this.currentWeatherSearch.card);
 
     this.currentWeatherSearch.addToWatchlist();
