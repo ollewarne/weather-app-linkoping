@@ -11,7 +11,7 @@ export class App {
     this.watchlist = document.getElementById('watchlist');
 
 //TODO: check to see if the checkbox is checked for temperature conversion and change the url for meteo depending on it.
-    this.storedWeather = [];
+    this.storedWeather = {};
 
     this.searchField.addEventListener('keydown', async (event) => {
         if (event.key === 'Enter') {
@@ -29,6 +29,12 @@ export class App {
         this.saveCityToWatchlist()
     })
 
+    this.watchlist.addEventListener('click', (event) => {
+      if(this.storedWeather[event.target.id]){
+        delete this.storedWeather[event.target.id];
+      };
+    })
+
   } // this is the end... my only friend, the end.
 
   async getWeather(searchInput) {
@@ -42,21 +48,24 @@ export class App {
     this.weatherContainer.appendChild(element)
   }
 
-  //TODO: fix the bug where you can only remove the most recent searched city from the watchlist
-  // and fix so we remove the correct item from the storedWeather array
-
   saveCityToWatchlist() {
-    this.storedWeather.push({[this.currentWeatherSearch.city]: this.currentWeatherSearch});
+
+    this.storedWeather[this.currentWeatherSearch.cityId] = this.currentWeatherSearch;
+
+    // this.storedWeather.push({[this.currentWeatherSearch.cityId]: this.currentWeatherSearch});
     // this.weatherContainer.removeChild(this.currentWeatherSearch.card);
     this.watchlist.appendChild(this.currentWeatherSearch.card);
-    this.currentWeatherSearch.card.addEventListener('click', (event) => {
-      //removjaself! Bombaclat!
-      this.currentWeatherSearch.removeCardFromWatchlist(event);
 
-    let index = this.storedWeather.indexOf(this.currentWeatherSearch.city)
-    this.storedWeather.splice(index, 1);
-    console.log(this.storedWeather);
-    })
+    this.currentWeatherSearch.addToWatchlist();
+
+    // this.currentWeatherSearch.card.addEventListener('click', (event) => {
+    //   //removjaself! Bombaclat!
+    //   this.currentWeatherSearch.removeCardFromWatchlist(event);
+
+    // let index = this.storedWeather.indexOf(this.currentWeatherSearch.city)
+    // this.storedWeather.splice(index, 1);
+    // console.log(this.storedWeather);
+    // })
 
   }
 }
