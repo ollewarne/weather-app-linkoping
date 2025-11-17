@@ -283,3 +283,10 @@ body {
   display: flex;
   flex-direction: column-reverse;
 }
+
+
+
+/* PREVENT LISTENER to hear child elements in div when removed from watchlist */
+.weather-card * {
+  pointer-events: none;
+}
