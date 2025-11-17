@@ -17,9 +17,9 @@ export class Weather {
         this.timeZone = data.timezone,
         this.unit = '℃' //DEFAULT 
 
+
+        startAutoUpdate(this, 10000); 
         this.createWeatherCard();
-        // this.clock = new TimeDisplay(this.clockEl.id, 'Senast uppdaterad:');
-        // this.intervalId = startAutoUpdate(this, 'updateWeatherCard', 10000);
 
     }
 
@@ -33,7 +33,7 @@ export class Weather {
         this.title.innerHTML = `${this.city}, ${this.country}`
         this.paragraph = document.createElement("p")
         //TODO: make this paragraph less horrible
-        this.paragraph.innerHTML = `<span class="icon">${this.icon}</span> <span class="temp">${this.temperature}</span><span class="unit">${this.unit}</span> <span class="description">${this.weather}</span>`
+        this.paragraph.innerHTML = `<span class="icon">${this.icon}</span> <span class="temp">${this.temperature}</span><span class="unit">${this.unit}</span> <span class="description">${this.weather}</span><span class="local-time-label">LOCAL TIME?</span>`
         this.card.appendChild(this.title);
         this.card.appendChild(this.paragraph);
 
@@ -55,7 +55,7 @@ export class Weather {
         async updateWeatherCard() {
         await this.updateWeather();
 
-        this.title.innerHTML = `${this.city} ${this.icon}`;
+        this.title.innerHTML = `${this.city}, ${this.country}`
 
         const temp = this.card.querySelector(".temp");
         temp.textContent = this.temperature;
@@ -66,9 +66,6 @@ export class Weather {
         const unit = this.card.querySelector(".unit");
         unit.textContent = this.unit;
 
-        if (this.clock) {
-            this.clock.show();
-        }
     }
 
     changeTemperatureAndUnit() {
@@ -96,9 +93,6 @@ export class Weather {
 
     removeCardFromWatchlist(event) {
         document.getElementById(event.target.id).remove();
-        if (this.intervalId) {
-            clearInterval(this.intervalId);
-        };
     };
 
 };
