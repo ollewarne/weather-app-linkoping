@@ -58,26 +58,27 @@
         <!-- END -- MAIN-CLOUD -->
 
         <!-- START -- DISPLAY TEXT -->
-        <section class="display-text">
-            <p id="display-text" class="visually-hidden">Idag klockan {time} i {stad} är det {väder} med en temperatur på {temp} {unit}.
-            </p>
-        </section>
-        <!-- END -- DISPLAY TEXT -->
+        <div class="whather-box">
+            <section class="display-text">
+                <p id="display-text" class="visually-hidden">Idag klockan {time} i {stad} är det {väder} med en temperatur på {temp} {unit}.
+                </p>
+            </section>
+            <!-- END -- DISPLAY TEXT -->
 
-        <section>
-            <div id="weather-container">
+            <section>
+                <div id="weather-container">
+                </div>
+            </section>
+
+            <button id="add-2-watchlist">+ add to watchlist</button>
+            <div id="watchlist">
+
             </div>
-        </section>
-
-        <button id="add-2-watchlist">+ add to watchlist</button>
-        <div id="watchlist">
-
         </div>
 
     </main>
     <footer>
-        <script type="module" src="./clock/clock-init.js" defer></script>
-        <p id="clock"></p>
+
     </footer>
 </body>
 

@@ -1,8 +1,5 @@
 import { getWeatherFromCity } from "./services/meteo.js";
 import { Weather } from "./components/weatherClass.js";
-import { initSearchListener } from './components/clock/searchListener.js';
-
-initSearchListener(); // aktiverar lyssnaren
 
 export class App {
   constructor() {
@@ -50,7 +47,7 @@ export class App {
 
   saveCityToWatchlist() {
     this.storedWeather.push({[this.currentWeatherSearch.city]: this.currentWeatherSearch});
-    this.weatherContainer.removeChild(this.currentWeatherSearch.card);
+    // this.weatherContainer.removeChild(this.currentWeatherSearch.card);
     this.watchlist.appendChild(this.currentWeatherSearch.card);
     this.currentWeatherSearch.card.addEventListener('click', (event) => {
       //removjaself! Bombaclat!

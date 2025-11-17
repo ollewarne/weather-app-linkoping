@@ -1,5 +1,7 @@
 import { getWeatherFromCity } from "../services/meteo.js";
 import { temperatureConverter, unitConverter } from "../utils/temperatureConverter.js";
+import { TimeDisplay } from "./clock/clock-Class.js"; 
+import { startAutoUpdate } from "./auto-refresh.js";
 
 export class Weather {
 
@@ -14,7 +16,11 @@ export class Weather {
         this.unit = '℃' //DEFAULT 
 
         this.createWeatherCard();
+        this.clock = new TimeDisplay(this.clockEl.id, 'Senast uppdaterad:');
+        this.intervalId = startAutoUpdate(this, 'updateWeatherCard', 10000);
+
     }
+
 
     createWeatherCard() {
         this.card = document.createElement("div")
@@ -25,6 +31,11 @@ export class Weather {
         this.paragraph.innerHTML = `<span class="temp">${this.temperature}</span><span class="unit">${this.unit}</span> <span class="description">${this.weather}</span>`
         this.card.appendChild(this.title);
         this.card.appendChild(this.paragraph);
+
+        this.clockEl = document.createElement("div");
+        this.clockEl.classList.add("updated-time");
+        this.clockEl.id = `clock-${this.city}-${Date.now()}`;
+        this.card.appendChild(this.clockEl);
     }
 
     async updateWeather() {
@@ -36,9 +47,23 @@ export class Weather {
         this.date = weatherData.date;
     }
 
-    updateWeatherCard() {
-        this.updateWeather()
-        this.createWeatherCard()
+        async updateWeatherCard() {
+        await this.updateWeather();
+
+        this.title.innerHTML = `${this.city} ${this.icon}`;
+
+        const temp = this.card.querySelector(".temp");
+        temp.textContent = this.temperature;
+
+        const desc = this.card.querySelector(".description");
+        desc.textContent = this.weather;
+
+        const unit = this.card.querySelector(".unit");
+        unit.textContent = this.unit;
+
+        if (this.clock) {
+            this.clock.show();
+        }
     }
 
     changeTemperatureAndUnit() {
@@ -61,5 +86,8 @@ export class Weather {
 
     removeCardFromWatchlist(event) {
         event.target.parentNode.removeChild(this.card)
+                if (this.intervalId) {
+            clearInterval(this.intervalId);
+        }
     }
 }
