@@ -2,7 +2,7 @@ import { TimeDisplay } from "./clock/clock-Class.js";
 
 const globalClock = new TimeDisplay("global-update-time", "Senast uppdaterad:");  
 
-export function startAutoUpdate(target, intervalMs = 10000) {
+export function startAutoUpdate(target, intervalMs = 900000) {
 
   async function tick() {
 

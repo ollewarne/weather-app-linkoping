@@ -18,7 +18,7 @@ export class Weather {
         this.unit = '℃' //DEFAULT 
 
 
-        startAutoUpdate(this, 10000); 
+        startAutoUpdate(this, 900000); 
         this.createWeatherCard();
 
     }
