@@ -6,6 +6,7 @@ import { startAutoUpdate } from "./auto-refresh.js";
 export class Weather {
 
     constructor(data) {
+        this.cityId = data.id,
         this.city = data.city,
         this.temperature = data.temperature,
         this.weather = data.weather,
@@ -16,15 +17,17 @@ export class Weather {
         this.unit = '℃' //DEFAULT 
 
         this.createWeatherCard();
-        this.clock = new TimeDisplay(this.clockEl.id, 'Senast uppdaterad:');
-        this.intervalId = startAutoUpdate(this, 'updateWeatherCard', 10000);
+        // this.clock = new TimeDisplay(this.clockEl.id, 'Senast uppdaterad:');
+        // this.intervalId = startAutoUpdate(this, 'updateWeatherCard', 10000);
 
     }
 
 
     createWeatherCard() {
         this.card = document.createElement("div")
+        this.card.id = this.cityId;
         this.card.classList.add("weather-card")
+
         this.title = document.createElement("h2");
         this.title.innerHTML = `${this.city} ${this.icon}`
         this.paragraph = document.createElement("p")
@@ -79,15 +82,16 @@ export class Weather {
     };
 
     addToWatchlist() {
-        this.card.addEventListener('click', () => {
-            this.removeCardFromWatchlist();
+        this.card.addEventListener('click', (event) => {
+            this.removeCardFromWatchlist(event);
         })
     }
 
     removeCardFromWatchlist(event) {
-        event.target.parentNode.removeChild(this.card)
-                if (this.intervalId) {
+        document.getElementById(event.target.id).remove();
+        if (this.intervalId) {
             clearInterval(this.intervalId);
-        }
-    }
-}
+        };
+    };
+
+};
