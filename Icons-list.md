@@ -73,10 +73,12 @@
 `<i class="ri-moon-cloudy-line"></i>`
 
 
-### UNKNOWN / BROKEN
+### UNKNOWN / BROKEN / CLOSE
 
 ##### Unknown / Broken
 `<i class="ri-file-damage-line"></i>`
+##### Close
+`<i class="ri-close-large-line"></i>`
 
 
 ## FONT AWESOME
