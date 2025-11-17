@@ -11,12 +11,13 @@ export async function getWeatherFromCity(city) {
    let longitude = data.results[0].longitude;
    let cityName = data.results[0].name;
    let cityId = data.results[0].id;
+   let country = data.results[0].country_code;
 
    
-   return await getTemperatureFromCoordinates(latitude, longitude, cityName, cityId)
+   return await getTemperatureFromCoordinates(latitude, longitude, cityName, cityId, country)
 }
 
-async function getTemperatureFromCoordinates(lat, lon, city, cityId) {
+async function getTemperatureFromCoordinates(lat, lon, city, cityId, country) {
    const response = await fetch(createTemperatureURL(lat, lon));
    if (!response.ok)
       throw new Error(console.log("Got HTTP-error ", response.status));
@@ -29,6 +30,7 @@ async function getTemperatureFromCoordinates(lat, lon, city, cityId) {
    return {
       id: 'id:' + cityId,
       city: city,
+      country: country,
       temperature: data.current.temperature_2m,
       weather: weatherCodes[data.current.weather_code].description,
       icon: weatherCodes[data.current.weather_code].icon,
