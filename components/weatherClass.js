@@ -8,6 +8,7 @@ export class Weather {
     constructor(data) {
         this.cityId = data.id,
         this.city = data.city,
+        this.country = data.country,
         this.temperature = data.temperature,
         this.weather = data.weather,
         this.icon = data.icon,
@@ -29,9 +30,10 @@ export class Weather {
         this.card.classList.add("weather-card")
 
         this.title = document.createElement("h2");
-        this.title.innerHTML = `${this.city} ${this.icon}`
+        this.title.innerHTML = `${this.city}, ${this.country}`
         this.paragraph = document.createElement("p")
-        this.paragraph.innerHTML = `<span class="temp">${this.temperature}</span><span class="unit">${this.unit}</span> <span class="description">${this.weather}</span>`
+        //TODO: make this paragraph less horrible
+        this.paragraph.innerHTML = `<span class="icon">${this.icon}</span> <span class="temp">${this.temperature}</span><span class="unit">${this.unit}</span> <span class="description">${this.weather}</span>`
         this.card.appendChild(this.title);
         this.card.appendChild(this.paragraph);
 
