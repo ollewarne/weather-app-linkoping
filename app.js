@@ -59,25 +59,11 @@ export class App {
   }
 
   saveCityToWatchlist() {
-
     this.storedWeather[this.currentWeatherSearch.cityId] = this.currentWeatherSearch;
-
-    // this.storedWeather.push({[this.currentWeatherSearch.cityId]: this.currentWeatherSearch});
-    // this.weatherContainer.removeChild(this.currentWeatherSearch.card);
 
     this.watchlist.appendChild(this.currentWeatherSearch.card);
 
     this.currentWeatherSearch.addToWatchlist();
-
-    // this.currentWeatherSearch.card.addEventListener('click', (event) => {
-    //   //removjaself! Bombaclat!
-    //   this.currentWeatherSearch.removeCardFromWatchlist(event);
-
-    // let index = this.storedWeather.indexOf(this.currentWeatherSearch.city)
-    // this.storedWeather.splice(index, 1);
-    // console.log(this.storedWeather);
-    // })
-
   }
 }
 

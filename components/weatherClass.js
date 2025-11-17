@@ -52,7 +52,7 @@ export class Weather {
         this.date = weatherData.date;
     }
 
-        async updateWeatherCard() {
+    async updateWeatherCard() {
         await this.updateWeather();
 
         this.title.innerHTML = `${this.city} ${this.icon}`;
