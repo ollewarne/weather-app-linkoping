@@ -12,18 +12,28 @@ export class App {
 
 //TODO: check to see if the checkbox is checked for temperature conversion and change the url for meteo depending on it.
     this.storedWeather = {};
-
+//TODO: show error if you search for a city that does not exist
     this.searchField.addEventListener('keydown', async (event) => {
         if (event.key === 'Enter') {
-          this.getWeather(this.searchField.value);
-          this.searchField.value = "";
+          if (this.searchField.value.trim() === "") {
+            this.searchField.placeholder = "please enter a city"
+            return;
+          } else {
+            await this.getWeather(this.searchField.value);
+            this.searchField.value = "";
+          }
         }
 
     })
 
     this.searchBtn.addEventListener('click', async () => {
-        this.getWeather(this.searchField.value);
-        this.searchField.value = "";
+        if (this.searchField.value.trim() === "") {
+          this.searchField.placeholder = "please enter a city"
+          return;
+        } else {
+          await this.getWeather(this.searchField.value);
+          this.searchField.value = "";
+        }
     })
     this.add2watchlist.addEventListener('click', () => {
         this.saveCityToWatchlist()
