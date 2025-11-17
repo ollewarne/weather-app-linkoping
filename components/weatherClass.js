@@ -1,9 +1,7 @@
 import { getWeatherFromCity } from "../services/meteo.js";
 import { temperatureConverter, unitConverter } from "../utils/temperatureConverter.js";
-// =====================================================
 import { TimeDisplay } from "./clock/clock-Class.js"; 
 import { startAutoUpdate } from "./auto-refresh.js";
-// =====================================================
 
 export class Weather {
 
@@ -18,19 +16,8 @@ export class Weather {
         this.unit = '℃' //DEFAULT 
 
         this.createWeatherCard();
-
-        //  KLOCK-DEL
         this.clock = new TimeDisplay(this.clockEl.id, 'Senast uppdaterad:');
-        // skapar en egen klocka för DETTA kort och kopplar den till kortets clock-div
-        // 'Senast uppdaterad:' är texten som ska stå före tiden
-
         this.intervalId = startAutoUpdate(this, 'updateWeatherCard', 10000);
-        // startar en auto-uppdatering för hela kortet (väder + tid)
-        // kör updateWeatherCard() direkt första gången
-        // och kör den igen var 10:e sekund
-        // sparar timer-ID i this.intervalId så vi kan stoppa den senare
-
-        //  SLUT KLOCK-DEL
 
     }
 
@@ -45,14 +32,10 @@ export class Weather {
         this.card.appendChild(this.title);
         this.card.appendChild(this.paragraph);
 
-        // =====================================================
-        // plats för klocktext i kortet
-        // =====================================================
         this.clockEl = document.createElement("div");
         this.clockEl.classList.add("updated-time");
         this.clockEl.id = `clock-${this.city}-${Date.now()}`;
         this.card.appendChild(this.clockEl);
-        // =====================================================
     }
 
     async updateWeather() {
@@ -64,15 +47,9 @@ export class Weather {
         this.date = weatherData.date;
     }
 
-    // updateWeatherCard() {
-    //     this.updateWeather()
-    //     this.createWeatherCard()
-    // }
         async updateWeatherCard() {
-        //  hämta NY väderdata
         await this.updateWeather();
 
-        //  uppdatera text i kortet
         this.title.innerHTML = `${this.city} ${this.icon}`;
 
         const temp = this.card.querySelector(".temp");
@@ -84,14 +61,9 @@ export class Weather {
         const unit = this.card.querySelector(".unit");
         unit.textContent = this.unit;
 
-        // =====================================================
-        //  säger åt TimeDisplay att visa tid nu
-        //    (TimeDisplay sköter Date + format)
-        // =====================================================
         if (this.clock) {
             this.clock.show();
         }
-        // =====================================================
     }
 
     changeTemperatureAndUnit() {
@@ -114,12 +86,8 @@ export class Weather {
 
     removeCardFromWatchlist(event) {
         event.target.parentNode.removeChild(this.card)
-        // =====================================================
-        // här rensar/stänger vi av timern för det här kortet (om den finns)
-        // så den inte fortsätter köras i bakgrunden
                 if (this.intervalId) {
             clearInterval(this.intervalId);
-        // =====================================================
         }
     }
 }

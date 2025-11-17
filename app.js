@@ -47,7 +47,6 @@ export class App {
 
   saveCityToWatchlist() {
     this.storedWeather.push({[this.currentWeatherSearch.city]: this.currentWeatherSearch});
-    //The node to be removed is not a child of this node  Delzar har ändrat
     // this.weatherContainer.removeChild(this.currentWeatherSearch.card);
     this.watchlist.appendChild(this.currentWeatherSearch.card);
     this.currentWeatherSearch.card.addEventListener('click', (event) => {
