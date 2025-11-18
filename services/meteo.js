@@ -15,9 +15,6 @@ setInterval(() => {
 
 
 export async function getWeatherFromCity(city) {
-
-   console.log(limitList);
-
    let url = createCordinatesURL(city);
 
    if (limitList[url]) {
@@ -52,6 +49,7 @@ async function getTemperatureFromCoordinates(lat, lon, city, cityId, country) {
 
    let url = createTemperatureURL(lat, lon);
 
+   console.log("kört call för " + city);
    if (limitList[url]) {
       let now = new Date().getTime();
       let delta = now - limitList[url];
@@ -69,8 +67,6 @@ async function getTemperatureFromCoordinates(lat, lon, city, cityId, country) {
 
    limitList[url] = new Date().getTime();
 
-   let date = data.current.time.split("T")[0]
-   let time = data.current.time.split("T")[1]
 
    return {
       id: 'id:' + cityId,
@@ -79,8 +75,9 @@ async function getTemperatureFromCoordinates(lat, lon, city, cityId, country) {
       temperature: data.current.temperature_2m,
       weather: weatherCodes[data.current.weather_code].description,
       icon: weatherCodes[data.current.weather_code].icon,
-      time: time,
-      date: date,
+      unit: data.current_units.temperature_2m,
+      time: data.current.time,
+      interval: data.current.interval,
       timeZone: data.timezone
    }
 }
