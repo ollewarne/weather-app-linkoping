@@ -5,20 +5,32 @@ import { startAutoUpdate } from "./auto-refresh.js";
 
 export class Weather {
 
+    next = 0;
+    count = 0;
+
     constructor(data) {
-        this.cityId = data.id,
-        this.city = data.city,
-        this.country = data.country,
-        this.temperature = data.temperature,
-        this.weather = data.weather,
-        this.icon = data.icon,
-        this.time = data.time,
-        this.date = data.date,
-        this.timeZone = data.timezone,
-        this.unit = '℃' //DEFAULT 
+        this.cityId = data.id;
+        this.city = data.city;
+        this.country = data.country;
+        this.temperature = data.temperature;
+        this.weather = data.weather;
+        this.icon = data.icon;
+        this.time = data.time;
+        this.interval = data.interval;
+        this.timeZone = data.timezone;
+        this.unit = data.unit;
 
+		this.timer = setInterval(
+			() => {
+				let now = new Date().getTime();
+				if (now >= this.next) {
+					this.updateWeatherCard();
+                    this.count++
+				}
+			}, 1000
+		);
 
-        startAutoUpdate(this, 900000); 
+   //     startAutoUpdate(this, 900000); 
         this.createWeatherCard();
 
     }
@@ -43,28 +55,46 @@ export class Weather {
         this.card.appendChild(this.clockEl);
     }
 
+
     async updateWeather() {
+        console.log("update weather", this.city)
         const weatherData = await getWeatherFromCity(this.city);
-        this.temperature = weatherData.temperature;
-        this.weather = weatherData.weather;
-        this.icon = weatherData.icon;
-        this.time = weatherData.time;
-        this.date = weatherData.date;
+        if (weatherData) {
+            this.temperature = weatherData.temperature;
+            this.weather = weatherData.weather;
+            this.icon = weatherData.icon;
+            this.time = weatherData.time;
+            this.interval = weatherData.interval;
+
+            let time = new Date(this.time);
+            time.setMinutes(time.getMinutes() + Math.abs(time.getTimezoneOffset()));
+            this.next = time.getTime() + (this.interval * 1000);
+
+            let now = new Date().getTime();
+            let delta = this.next - now;
+			console.log("Nästa hämtning om: " + parseInt(delta / 1000) + "s");
+        }
     }
 
     async updateWeatherCard() {
+        console.log("update weather card")
         await this.updateWeather();
-
-        this.title.innerHTML = `${this.city}, ${this.country}`
 
         const temp = this.card.querySelector(".temp");
         temp.textContent = this.temperature;
+
+        const icon = this.card.querySelector(".icon");
+        icon.innerHTML = this.icon;
 
         const desc = this.card.querySelector(".description");
         desc.textContent = this.weather;
 
         const unit = this.card.querySelector(".unit");
         unit.textContent = this.unit;
+
+        if (this.count > 1) {
+            unit.textContent = this.unit + " *";
+        }
 
     }
 
@@ -93,6 +123,7 @@ export class Weather {
 
     removeCardFromWatchlist(event) {
         document.getElementById(event.target.id).remove();
+        clearInterval(this.timer);
     };
 
 };
