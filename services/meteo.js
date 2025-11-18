@@ -1,11 +1,41 @@
 import { createCordinatesURL, createTemperatureURL } from "./url.js";
 import { weatherCodes } from "../utils/weatherCodes.js";
 
+let limitList = []; // Tendens att bli först stor? Sparar urlx2 för varje sökning. Återställs vid refresh. 
+
+
+setInterval(() => {
+
+   if (limitList.length > 100) {
+      limitList = [];
+      console.log('List of searched urls - cleared.')
+   }
+
+}, 3600000);
+
+
 export async function getWeatherFromCity(city) {
-   const response = await fetch(createCordinatesURL(city));
+
+   console.log(limitList);
+
+   let url = createCordinatesURL(city);
+
+   if (limitList[url]) {
+      let now = new Date().getTime();
+      let delta = now - limitList[url];
+
+      if(delta < 1000) {
+         console.log('Exceeded limit for api call. Only one fetch allowed per second.');
+         return null;
+      };
+   };
+
+   const response = await fetch(url);   
    if (!response.ok)
       throw new Error(console.log("Got HTTP-error ", response.status));
    const data = await response.json();
+
+   limitList[url] = new Date().getTime();
 
    let latitude = data.results[0].latitude;
    let longitude = data.results[0].longitude;
@@ -13,18 +43,33 @@ export async function getWeatherFromCity(city) {
    let cityId = data.results[0].id;
    let country = data.results[0].country_code;
 
-   
    return await getTemperatureFromCoordinates(latitude, longitude, cityName, cityId, country)
 }
 
+
+
 async function getTemperatureFromCoordinates(lat, lon, city, cityId, country) {
-   const response = await fetch(createTemperatureURL(lat, lon));
+
+   let url = createTemperatureURL(lat, lon);
+
+   if (limitList[url]) {
+      let now = new Date().getTime();
+      let delta = now - limitList[url];
+
+      if(delta < 1000) {
+         console.log('Exceeded limit for api call. Only one fetch allowed per second.');
+         return null;
+      };
+   };
+
+   const response = await fetch(url);
    if (!response.ok)
       throw new Error(console.log("Got HTTP-error ", response.status));
    const data = await response.json();
 
-   let date = data.current.time.split("T")[0]
+   limitList[url] = new Date().getTime();
 
+   let date = data.current.time.split("T")[0]
    let time = data.current.time.split("T")[1]
 
    return {
