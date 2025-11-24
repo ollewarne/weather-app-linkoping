@@ -1,4 +1,4 @@
-import { getWeatherFromCity } from "../services/meteo.js";
+import { getTemperatureFromCoordinates } from "../services/meteo.js";
 import { temperatureConverter, unitConverter } from "../utils/temperatureConverter.js";
 
 export class Weather {
@@ -6,10 +6,13 @@ export class Weather {
     next = 0;
     count = 0;
     //delzar
-    isUpdating = false;  
+    isUpdating = false;
 
     constructor(data) {
-        this.cityId = data.id;
+        this.data = data;
+        this.lat = data.lat;
+        this.lon = data.lon;
+        this.cityId = data.cityId;
         this.city = data.city;
         this.country = data.country;
         this.temperature = data.temperature;
@@ -43,8 +46,6 @@ export class Weather {
         this.createWeatherCard();
     }
 
-
-
     createWeatherCard() {
         this.card = document.createElement("div")
         this.card.id = this.cityId;
@@ -53,8 +54,10 @@ export class Weather {
         this.title = document.createElement("h2");
         this.title.innerHTML = `${this.city}, ${this.country}`
         this.paragraph = document.createElement("p")
+
         //TODO: make this paragraph less horrible
-        this.paragraph.innerHTML = `<span class="icon">${this.icon}</span> <span class="temp">${this.temperature}</span><span class="unit">${this.unit}</span> <span class="description">${this.weather}</span><span class="local-time-label">LOCAL TIME?</span>`
+        this.paragraph.innerHTML = `<span class="icon">${this.icon}</span> <span class="temp">${this.temperature}</span><span class="unit">${this.unit}</span> <span class="description">${this.weather}</span><span class="updated-at">LOCAL TIME?</span>`
+
         this.card.appendChild(this.title);
         this.card.appendChild(this.paragraph);
 
@@ -67,7 +70,7 @@ export class Weather {
 
     async updateWeather() {
         console.log("update weather", this.city)
-        const weatherData = await getWeatherFromCity(this.city);
+        const weatherData = await getTemperatureFromCoordinates(this.lat, this.lon, this.city, this.cityId, this.country);
         if (weatherData) {
             this.temperature = weatherData.temperature;
             this.weather = weatherData.weather;
@@ -82,7 +85,7 @@ export class Weather {
             let now = new Date().getTime();
             let delta = this.next - now;
 
-			const nextDate = new Date(this.next);
+	    const nextDate = new Date(this.next);
             console.log(
             `[${this.city}] Nästa auto uppdatering kl ${nextDate.toLocaleTimeString()} ` +
             `(om ${Math.round(delta / 1000)} sekunder)`
@@ -112,7 +115,7 @@ export class Weather {
             unit.textContent = this.unit;
 
             if (this.count > 1) {
-            unit.textContent = this.unit + " *";
+                unit.textContent = this.unit + " *";
             }
         } finally {
             this.isUpdating = false;     //  klart, nu får nästa köras
@@ -145,8 +148,7 @@ export class Weather {
 
 
     removeCardFromWatchlist(event) {
-        document.getElementById(event.target.id).remove();
-
+        this.card.remove();
         // stoppa schemat när kortet tas bort
         if (this.timer) {
             clearInterval(this.timer);

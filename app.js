@@ -1,4 +1,4 @@
-import { getWeatherFromCity } from "./services/meteo.js";
+import { getWeatherFromCity, getTemperatureFromCoordinates } from "./services/meteo.js";
 import { Weather } from "./components/weatherClass.js";
 
 export class App {
@@ -12,24 +12,38 @@ export class App {
 
     //TODO: check to see if the checkbox is checked for temperature conversion and change the url for meteo depending on it.
     this.storedWeather = {};
+    this.storageKey = "savedCities";
     this.searchField.addEventListener('keydown', async (event) => {
       if (event.key === 'Enter') {
-        try {
-          if (this.searchField.value.trim() === "") {
-            this.searchField.placeholder = "please enter a city"
-            return;
-          } else {
-            await this.getWeather(this.searchField.value);
-            this.searchField.value = "";
-          }
-        } catch (err) {
-          alert(`Error: Could not find a city with the name ${this.searchField.value}`)
-        }
+        this.searchEvent()
       }
-
     })
 
-    this.searchBtn.addEventListener('click', async () => {
+    this.searchBtn.addEventListener('click', this.searchEvent.bind(this))
+
+    this.add2watchlist.addEventListener('click', () => {
+      this.saveCityToWatchlist()
+    })
+
+    this.watchlist.addEventListener('click', (event) => {
+      if (this.storedWeather[event.target.id]) {
+        delete this.storedWeather[event.target.id];
+      };
+    })
+
+    if (localStorage.getItem(this.storageKey)) this.recreateSavedWeatherCards();
+
+  } // this is the end... my only friend, the end.
+
+  async recreateSavedWeatherCards() {
+      const localStorageData = JSON.parse(localStorage.getItem(this.storageKey));
+      for (let item of localStorageData) {
+        await this.getWeather(item.city);
+        this.saveCityToWatchlist();
+      }
+  }
+
+  async searchEvent() {
       try {
         if (this.searchField.value.trim() === "") {
           this.searchField.placeholder = "please enter a city"
@@ -41,18 +55,7 @@ export class App {
       } catch (err) {
           alert(`Error: Could not find a city with the name ${this.searchField.value}`)
       }
-    })
-    this.add2watchlist.addEventListener('click', () => {
-      this.saveCityToWatchlist()
-    })
-
-    this.watchlist.addEventListener('click', (event) => {
-      if (this.storedWeather[event.target.id]) {
-        delete this.storedWeather[event.target.id];
-      };
-    })
-
-  } // this is the end... my only friend, the end.
+  }
 
   async getWeather(searchInput) {
     let weatherData = await getWeatherFromCity(searchInput)
@@ -66,11 +69,20 @@ export class App {
   }
 
   saveCityToWatchlist() {
-    this.storedWeather[this.currentWeatherSearch.cityId] = this.currentWeatherSearch;
+    // limit the amount of saved cities to three and delete the first one added when adding a new one
+    if (Object.keys(this.storedWeather).length === 3) {
+      const firstItem = Object.keys(this.storedWeather)[0];
+      this.storedWeather[firstItem].removeCardFromWatchlist();
+      delete this.storedWeather[firstItem];
+    }
+
+    this.storedWeather[this.currentWeatherSearch.city] = this.currentWeatherSearch;
 
     this.watchlist.appendChild(this.currentWeatherSearch.card);
 
     this.currentWeatherSearch.addToWatchlist();
+
+    localStorage.setItem(this.storageKey, JSON.stringify(Object.values(this.storedWeather)));
   }
 }
 

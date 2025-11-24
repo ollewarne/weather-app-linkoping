@@ -1,40 +1,15 @@
 import { createCordinatesURL, createTemperatureURL } from "./url.js";
 import { weatherCodes } from "../utils/weatherCodes.js";
-import { enqueueRequest } from "./requestQueue.js"; 
-
-
-// let limitList = []; // Tendens att bli först stor? Sparar urlx2 för varje sökning. Återställs vid refresh. 
-
-
-// setInterval(() => {
-
-//    if (limitList.length > 100) {
-//       limitList = [];
-//       console.log('List of searched urls - cleared.')
-//    }
-
-// }, 3600000);
+import { enqueueRequest } from "./requestQueue.js";
 
 
 export async function getWeatherFromCity(city) {
    let url = createCordinatesURL(city);
 
-   // if (limitList[url]) {
-   //    let now = new Date().getTime();
-   //    let delta = now - limitList[url];
-
-   //    if(delta < 1000) {
-   //       console.log('Exceeded limit for api call. Only one fetch allowed per second.');
-   //       return null;
-   //    };
-   // };
-
-  const response = await enqueueRequest(() => fetch(url));
-  if (!response.ok)
-    throw new Error(console.log("Got HTTP-error ", response.status));
-  const data = await response.json();
-
-   // limitList[url] = new Date().getTime();
+   const response = await enqueueRequest(() => fetch(url));
+   if (!response.ok)
+      throw new Error(console.log("Got HTTP-error ", response.status));
+   const data = await response.json();
 
    let latitude = data.results[0].latitude;
    let longitude = data.results[0].longitude;
@@ -46,32 +21,21 @@ export async function getWeatherFromCity(city) {
 }
 
 
-
-async function getTemperatureFromCoordinates(lat, lon, city, cityId, country) {
+export async function getTemperatureFromCoordinates(lat, lon, city, cityId, country) {
 
    let url = createTemperatureURL(lat, lon);
 
    console.log("kört call för " + city);
-   // if (limitList[url]) {
-   //    let now = new Date().getTime();
-   //    let delta = now - limitList[url];
 
-   //    if(delta < 1000) {
-   //       console.log('Exceeded limit for api call. Only one fetch allowed per second.');
-   //       return null;
-   //    };
-   // };
-
-  const response = await enqueueRequest(() => fetch(url));
-  if (!response.ok)
-    throw new Error(console.log("Got HTTP-error ", response.status));
-  const data = await response.json();
-
-   // limitList[url] = new Date().getTime();
-
+   const response = await enqueueRequest(() => fetch(url));
+   if (!response.ok)
+      throw new Error(console.log("Got HTTP-error ", response.status));
+   const data = await response.json();
 
    return {
-      id: 'id:' + cityId,
+      lat: lat,
+      lon: lon,
+      cityId: 'id:' + cityId,
       city: city,
       country: country,
       temperature: data.current.temperature_2m,
