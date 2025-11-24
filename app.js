@@ -10,11 +10,12 @@ export class App {
     this.add2watchlist = document.getElementById('add-2-watchlist');
     this.watchlist = document.getElementById('watchlist');
 
-//TODO: check to see if the checkbox is checked for temperature conversion and change the url for meteo depending on it.
+    //TODO: check to see if the checkbox is checked for temperature conversion and change the url for meteo depending on it.
     this.storedWeather = {};
-//TODO: show error if you search for a city that does not exist
+    //TODO: show error if you search for a city that does not exist
     this.searchField.addEventListener('keydown', async (event) => {
-        if (event.key === 'Enter') {
+      if (event.key === 'Enter') {
+        try {
           if (this.searchField.value.trim() === "") {
             this.searchField.placeholder = "please enter a city"
             return;
@@ -22,11 +23,15 @@ export class App {
             await this.getWeather(this.searchField.value);
             this.searchField.value = "";
           }
+        } catch (err) {
+          alert("Error: Could not find the city")
         }
+      }
 
     })
 
     this.searchBtn.addEventListener('click', async () => {
+      try {
         if (this.searchField.value.trim() === "") {
           this.searchField.placeholder = "please enter a city"
           return;
@@ -34,13 +39,16 @@ export class App {
           await this.getWeather(this.searchField.value);
           this.searchField.value = "";
         }
+      } catch (err) {
+        alert("Error: Could not find the city")
+      }
     })
     this.add2watchlist.addEventListener('click', () => {
-        this.saveCityToWatchlist()
+      this.saveCityToWatchlist()
     })
 
     this.watchlist.addEventListener('click', (event) => {
-      if(this.storedWeather[event.target.id]){
+      if (this.storedWeather[event.target.id]) {
         delete this.storedWeather[event.target.id];
       };
     })
