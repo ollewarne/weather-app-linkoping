@@ -15,34 +15,12 @@ export class App {
     this.storageKey = "savedCities";
     this.searchField.addEventListener('keydown', async (event) => {
       if (event.key === 'Enter') {
-        try {
-          if (this.searchField.value.trim() === "") {
-            this.searchField.placeholder = "please enter a city"
-            return;
-          } else {
-            await this.getWeather(this.searchField.value);
-            this.searchField.value = "";
-          }
-        } catch (err) {
-          alert(`Error: Could not find a city with the name ${this.searchField.value}`)
-        }
-      }
-
-    })
-
-    this.searchBtn.addEventListener('click', async () => {
-      try {
-        if (this.searchField.value.trim() === "") {
-          this.searchField.placeholder = "please enter a city"
-          return;
-        } else {
-          await this.getWeather(this.searchField.value);
-          this.searchField.value = "";
-        }
-      } catch (err) {
-          alert(`Error: Could not find a city with the name ${this.searchField.value}`)
+        this.searchEvent()
       }
     })
+
+    this.searchBtn.addEventListener('click', this.searchEvent.bind(this))
+
     this.add2watchlist.addEventListener('click', () => {
       this.saveCityToWatchlist()
     })
@@ -59,6 +37,20 @@ export class App {
     }
 
   } // this is the end... my only friend, the end.
+
+  async searchEvent() {
+      try {
+        if (this.searchField.value.trim() === "") {
+          this.searchField.placeholder = "please enter a city"
+          return;
+        } else {
+          await this.getWeather(this.searchField.value);
+          this.searchField.value = "";
+        }
+      } catch (err) {
+          alert(`Error: Could not find a city with the name ${this.searchField.value}`)
+      }
+  }
 
   async getWeather(searchInput) {
     let weatherData = await getWeatherFromCity(searchInput)
