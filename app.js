@@ -1,4 +1,4 @@
-import { getWeatherFromCity } from "./services/meteo.js";
+import { getWeatherFromCity, getTemperatureFromCoordinates } from "./services/meteo.js";
 import { Weather } from "./components/weatherClass.js";
 
 export class App {
@@ -12,6 +12,7 @@ export class App {
 
     //TODO: check to see if the checkbox is checked for temperature conversion and change the url for meteo depending on it.
     this.storedWeather = {};
+    this.storageKey = "savedCities";
     this.searchField.addEventListener('keydown', async (event) => {
       if (event.key === 'Enter') {
         try {
@@ -52,6 +53,11 @@ export class App {
       };
     })
 
+    if (localStorage.getItem(this.storageKey)) {
+      //TODO: if there is something in local storage we should recreate it as a class again so we can update the weather
+      console.log(JSON.parse(localStorage.getItem(this.storageKey)))
+    }
+
   } // this is the end... my only friend, the end.
 
   async getWeather(searchInput) {
@@ -66,11 +72,22 @@ export class App {
   }
 
   saveCityToWatchlist() {
+    // limit the amount of saved cities
+    if (Object.keys(this.storedWeather).length === 3) {
+      const firstItem = Object.keys(this.storedWeather)[0];
+      this.storedWeather[firstItem].card.remove();
+      delete this.storedWeather[firstItem];
+    }
+
     this.storedWeather[this.currentWeatherSearch.cityId] = this.currentWeatherSearch;
 
     this.watchlist.appendChild(this.currentWeatherSearch.card);
 
     this.currentWeatherSearch.addToWatchlist();
+
+
+    localStorage.setItem(this.storageKey, JSON.stringify(this.storedWeather));
+    console.log(localStorage.getItem(this.storageKey));
   }
 }
 
