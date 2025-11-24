@@ -31,12 +31,17 @@ export class App {
       };
     })
 
-    if (localStorage.getItem(this.storageKey)) {
-      //TODO: if there is something in local storage we should recreate it as a class again so we can update the weather
-      console.log(JSON.parse(localStorage.getItem(this.storageKey)))
-    }
+    if (localStorage.getItem(this.storageKey)) this.recreateSavedWeatherCards();
 
   } // this is the end... my only friend, the end.
+
+  async recreateSavedWeatherCards() {
+      const localStorageData = JSON.parse(localStorage.getItem(this.storageKey));
+      for (let item of localStorageData) {
+        await this.getWeather(item.city);
+        this.saveCityToWatchlist();
+      }
+  }
 
   async searchEvent() {
       try {
@@ -64,22 +69,20 @@ export class App {
   }
 
   saveCityToWatchlist() {
-    // limit the amount of saved cities
+    // limit the amount of saved cities to three and delete the first one added when adding a new one
     if (Object.keys(this.storedWeather).length === 3) {
       const firstItem = Object.keys(this.storedWeather)[0];
-      this.storedWeather[firstItem].card.remove();
+      this.storedWeather[firstItem].removeCardFromWatchlist();
       delete this.storedWeather[firstItem];
     }
 
-    this.storedWeather[this.currentWeatherSearch.cityId] = this.currentWeatherSearch;
+    this.storedWeather[this.currentWeatherSearch.city] = this.currentWeatherSearch;
 
     this.watchlist.appendChild(this.currentWeatherSearch.card);
 
     this.currentWeatherSearch.addToWatchlist();
 
-
-    localStorage.setItem(this.storageKey, JSON.stringify(this.storedWeather));
-    console.log(localStorage.getItem(this.storageKey));
+    localStorage.setItem(this.storageKey, JSON.stringify(Object.values(this.storedWeather)));
   }
 }
 
