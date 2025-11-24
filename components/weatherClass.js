@@ -1,4 +1,4 @@
-import { getWeatherFromCity, getTemperatureFromCoordinates } from "../services/meteo.js";
+import { getTemperatureFromCoordinates } from "../services/meteo.js";
 import { temperatureConverter, unitConverter } from "../utils/temperatureConverter.js";
 
 export class Weather {
@@ -9,6 +9,7 @@ export class Weather {
     isUpdating = false;
 
     constructor(data) {
+        this.data = data;
         this.lat = data.lat;
         this.lon = data.lon;
         this.cityId = data.cityId;
@@ -147,8 +148,7 @@ export class Weather {
 
 
     removeCardFromWatchlist(event) {
-        document.getElementById(event.target.id).remove();
-
+        this.card.remove();
         // stoppa schemat när kortet tas bort
         if (this.timer) {
             clearInterval(this.timer);
