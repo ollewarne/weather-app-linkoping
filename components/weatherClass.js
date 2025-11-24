@@ -69,7 +69,7 @@ export class Weather {
 
     async updateWeather() {
         console.log("update weather", this.city)
-        const weatherData = await getTemperatureFromCoordinates(this.lat, this.lon);
+        const weatherData = await getTemperatureFromCoordinates(this.lat, this.lon, this.city, this.cityId, this.country);
         if (weatherData) {
             this.temperature = weatherData.temperature;
             this.weather = weatherData.weather;
