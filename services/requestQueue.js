@@ -2,7 +2,7 @@ const queue = [];
 let isRunning = false;
 
 // körs automatiskt var sekund
-setInterval(processNext, 1000);
+setInterval(processNext, 100);
 
 function processNext() {
   if (isRunning) return;
