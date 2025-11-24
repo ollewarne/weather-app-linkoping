@@ -1,12 +1,12 @@
 import { getWeatherFromCity } from "../services/meteo.js";
 import { temperatureConverter, unitConverter } from "../utils/temperatureConverter.js";
-import { TimeDisplay } from "./clock/clock-Class.js"; 
-import { startAutoUpdate } from "./auto-refresh.js";
 
 export class Weather {
 
     next = 0;
     count = 0;
+    //delzar
+    isUpdating = false;  
 
     constructor(data) {
         this.cityId = data.id;
@@ -20,20 +20,29 @@ export class Weather {
         this.timeZone = data.timezone;
         this.unit = data.unit;
 
-		this.timer = setInterval(
-			() => {
-				let now = new Date().getTime();
-				if (now >= this.next) {
-					this.updateWeatherCard();
-                    this.count++
-				}
-			}, 1000
-		);
+        let time = new Date(this.time);
+        time.setMinutes(time.getMinutes() + Math.abs(time.getTimezoneOffset()));
+        this.next = time.getTime() + this.interval * 1000;
 
-   //     startAutoUpdate(this, 900000); 
+        const delta = this.next - Date.now();
+        const nextDate = new Date(this.next);
+        console.log(
+            `[${this.city}] Nästa auto uppdatering kl ${nextDate.toLocaleTimeString()} ` +
+            `(om ${Math.round(delta / 1000)} sekunder)`
+        );
+
+        this.timer = setInterval(() => {
+            const now = Date.now();
+
+            if (now >= this.next && !this.isUpdating) {
+                this.updateWeatherCard();
+                this.count++;
+            }
+        }, 1000);
+
         this.createWeatherCard();
-
     }
+
 
 
     createWeatherCard() {
@@ -72,31 +81,44 @@ export class Weather {
 
             let now = new Date().getTime();
             let delta = this.next - now;
-			console.log("Nästa hämtning om: " + parseInt(delta / 1000) + "s");
+
+			const nextDate = new Date(this.next);
+            console.log(
+            `[${this.city}] Nästa auto uppdatering kl ${nextDate.toLocaleTimeString()} ` +
+            `(om ${Math.round(delta / 1000)} sekunder)`
+            );
         }
     }
 
     async updateWeatherCard() {
-        console.log("update weather card")
-        await this.updateWeather();
+        console.log("update weather card");
 
-        const temp = this.card.querySelector(".temp");
-        temp.textContent = this.temperature;
+        if (this.isUpdating) return;   //  om något redan körs, gör inget
 
-        const icon = this.card.querySelector(".icon");
-        icon.innerHTML = this.icon;
+        this.isUpdating = true;        //  markera att vi uppdaterar nu
+        try {
+            await this.updateWeather();
 
-        const desc = this.card.querySelector(".description");
-        desc.textContent = this.weather;
+            const temp = this.card.querySelector(".temp");
+            temp.textContent = this.temperature;
 
-        const unit = this.card.querySelector(".unit");
-        unit.textContent = this.unit;
+            const icon = this.card.querySelector(".icon");
+            icon.innerHTML = this.icon;
 
-        if (this.count > 1) {
+            const desc = this.card.querySelector(".description");
+            desc.textContent = this.weather;
+
+            const unit = this.card.querySelector(".unit");
+            unit.textContent = this.unit;
+
+            if (this.count > 1) {
             unit.textContent = this.unit + " *";
+            }
+        } finally {
+            this.isUpdating = false;     //  klart, nu får nästa köras
         }
-
     }
+
 
     changeTemperatureAndUnit() {
 
@@ -121,9 +143,13 @@ export class Weather {
         this.card.appendChild(closeIcon);
     }
 
+
     removeCardFromWatchlist(event) {
         document.getElementById(event.target.id).remove();
-        clearInterval(this.timer);
-    };
 
+        // stoppa schemat när kortet tas bort
+        if (this.timer) {
+            clearInterval(this.timer);
+        }
+    };
 };
