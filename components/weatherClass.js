@@ -1,27 +1,48 @@
 import { getWeatherFromCity } from "../services/meteo.js";
 import { temperatureConverter, unitConverter } from "../utils/temperatureConverter.js";
-import { TimeDisplay } from "./clock/clock-Class.js"; 
-import { startAutoUpdate } from "./auto-refresh.js";
 
 export class Weather {
 
+    next = 0;
+    count = 0;
+    //delzar
+    isUpdating = false;  
+
     constructor(data) {
-        this.cityId = data.id,
-        this.city = data.city,
-        this.country = data.country,
-        this.temperature = data.temperature,
-        this.weather = data.weather,
-        this.icon = data.icon,
-        this.time = data.time,
-        this.date = data.date,
-        this.timeZone = data.timezone,
-        this.unit = '℃' //DEFAULT 
+        this.cityId = data.id;
+        this.city = data.city;
+        this.country = data.country;
+        this.temperature = data.temperature;
+        this.weather = data.weather;
+        this.icon = data.icon;
+        this.time = data.time;
+        this.interval = data.interval;
+        this.timeZone = data.timezone;
+        this.unit = data.unit;
 
+        let time = new Date(this.time);
+        time.setMinutes(time.getMinutes() + Math.abs(time.getTimezoneOffset()));
+        this.next = time.getTime() + this.interval * 1000;
 
-        startAutoUpdate(this, 900000); 
+        const delta = this.next - Date.now();
+        const nextDate = new Date(this.next);
+        console.log(
+            `[${this.city}] Nästa auto uppdatering kl ${nextDate.toLocaleTimeString()} ` +
+            `(om ${Math.round(delta / 1000)} sekunder)`
+        );
+
+        this.timer = setInterval(() => {
+            const now = Date.now();
+
+            if (now >= this.next && !this.isUpdating) {
+                this.updateWeatherCard();
+                this.count++;
+            }
+        }, 1000);
+
         this.createWeatherCard();
-
     }
+
 
 
     createWeatherCard() {
@@ -43,30 +64,61 @@ export class Weather {
         this.card.appendChild(this.clockEl);
     }
 
+
     async updateWeather() {
+        console.log("update weather", this.city)
         const weatherData = await getWeatherFromCity(this.city);
-        this.temperature = weatherData.temperature;
-        this.weather = weatherData.weather;
-        this.icon = weatherData.icon;
-        this.time = weatherData.time;
-        this.date = weatherData.date;
+        if (weatherData) {
+            this.temperature = weatherData.temperature;
+            this.weather = weatherData.weather;
+            this.icon = weatherData.icon;
+            this.time = weatherData.time;
+            this.interval = weatherData.interval;
+
+            let time = new Date(this.time);
+            time.setMinutes(time.getMinutes() + Math.abs(time.getTimezoneOffset()));
+            this.next = time.getTime() + (this.interval * 1000);
+
+            let now = new Date().getTime();
+            let delta = this.next - now;
+
+			const nextDate = new Date(this.next);
+            console.log(
+            `[${this.city}] Nästa auto uppdatering kl ${nextDate.toLocaleTimeString()} ` +
+            `(om ${Math.round(delta / 1000)} sekunder)`
+            );
+        }
     }
 
     async updateWeatherCard() {
-        await this.updateWeather();
+        console.log("update weather card");
 
-        this.title.innerHTML = `${this.city}, ${this.country}`
+        if (this.isUpdating) return;   //  om något redan körs, gör inget
 
-        const temp = this.card.querySelector(".temp");
-        temp.textContent = this.temperature;
+        this.isUpdating = true;        //  markera att vi uppdaterar nu
+        try {
+            await this.updateWeather();
 
-        const desc = this.card.querySelector(".description");
-        desc.textContent = this.weather;
+            const temp = this.card.querySelector(".temp");
+            temp.textContent = this.temperature;
 
-        const unit = this.card.querySelector(".unit");
-        unit.textContent = this.unit;
+            const icon = this.card.querySelector(".icon");
+            icon.innerHTML = this.icon;
 
+            const desc = this.card.querySelector(".description");
+            desc.textContent = this.weather;
+
+            const unit = this.card.querySelector(".unit");
+            unit.textContent = this.unit;
+
+            if (this.count > 1) {
+            unit.textContent = this.unit + " *";
+            }
+        } finally {
+            this.isUpdating = false;     //  klart, nu får nästa köras
+        }
     }
+
 
     changeTemperatureAndUnit() {
 
@@ -91,8 +143,13 @@ export class Weather {
         this.card.appendChild(closeIcon);
     }
 
+
     removeCardFromWatchlist(event) {
         document.getElementById(event.target.id).remove();
-    };
 
+        // stoppa schemat när kortet tas bort
+        if (this.timer) {
+            clearInterval(this.timer);
+        }
+    };
 };
