@@ -12,7 +12,6 @@ export class App {
 
     //TODO: check to see if the checkbox is checked for temperature conversion and change the url for meteo depending on it.
     this.storedWeather = {};
-    //TODO: show error if you search for a city that does not exist
     this.searchField.addEventListener('keydown', async (event) => {
       if (event.key === 'Enter') {
         try {
@@ -24,7 +23,7 @@ export class App {
             this.searchField.value = "";
           }
         } catch (err) {
-          alert("Error: Could not find the city")
+          alert(`Error: Could not find a city with the name ${this.searchField.value}`)
         }
       }
 
@@ -40,7 +39,7 @@ export class App {
           this.searchField.value = "";
         }
       } catch (err) {
-        alert("Error: Could not find the city")
+          alert(`Error: Could not find a city with the name ${this.searchField.value}`)
       }
     })
     this.add2watchlist.addEventListener('click', () => {
