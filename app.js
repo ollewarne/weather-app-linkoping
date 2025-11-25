@@ -22,8 +22,11 @@ export class App {
     })
 
     this.watchlist.addEventListener('click', (event) => {
+      console.log(this.storedWeather)
       if (this.storedWeather[event.target.id]) {
+
         delete this.storedWeather[event.target.id];
+        localStorage.setItem(this.storageKey, JSON.stringify(this.storedWeather));
       };
     })
 
@@ -33,8 +36,8 @@ export class App {
 
   async recreateSavedWeatherCards() {
       const localStorageData = JSON.parse(localStorage.getItem(this.storageKey));
-      for (let item of localStorageData) {
-        await this.getWeather(item.city);
+      for (let item in localStorageData) {
+        await this.getWeather(localStorageData[item].city);
         this.saveCityToWatchlist();
       }
   }
@@ -58,13 +61,13 @@ export class App {
       delete this.storedWeather[firstItem];
     }
 
-    this.storedWeather[this.currentWeatherSearch.city] = this.currentWeatherSearch;
+    this.storedWeather[this.currentWeatherSearch.cityId] = this.currentWeatherSearch;
 
     this.watchlist.appendChild(this.currentWeatherSearch.card);
 
     this.currentWeatherSearch.addToWatchlist();
 
-    localStorage.setItem(this.storageKey, JSON.stringify(Object.values(this.storedWeather)));
+    localStorage.setItem(this.storageKey, JSON.stringify(this.storedWeather));
   }
 }
 
