@@ -209,6 +209,67 @@ main {
   color:red; /* ???????? */
 }
 
+/* Sök wrapper så vi kan positionera listan under inputfältet */
+.search-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: stretch;
+}
+
+/* Gör input och knapp lite tajtare ihop */
+.search input {
+  background-color: var(--light-grey);
+  border: 2px solid var(--dark-blue);
+  border-radius: 10px;
+  padding: 0.8em 1em;
+  font-size: 0.95rem;
+}
+
+#search-button {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.4rem;
+  cursor: pointer;
+}
+
+/* Dropdown med förslag */
+.search-suggestions {
+  position: absolute;
+  left: 0;
+  top: 89%;
+  margin-top: 4px;
+  list-style: none;
+  padding: 4px 0;
+  margin-bottom: 0;
+  width: 88%;
+  max-width: 18rem;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 0 0 10px 10px;
+  border: 2px solid rgba(14, 63, 83, 0.3);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  max-height: 12rem;
+  overflow-y: auto;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+/* Enskilt förslag */
+.search-suggestions__item {
+  padding: 0.4em 0.75em;
+  font-size: 0.9rem;
+  color: var(--dark-blue);
+  cursor: pointer;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.search-suggestions__item:hover {
+  background: rgba(33, 151, 201, 0.12);
+}
+
 /* ----- END ----- CLOUD & SEARCH */
 
 /* PREVENT LISTENER to hear child elements in div when removed from watchlist */
