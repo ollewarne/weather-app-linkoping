@@ -1,11 +1,14 @@
 import { getWeatherFromCity, getTemperatureFromCoordinates } from "./services/meteo.js";
 import { Weather } from "./components/weatherClass.js";
+import { initSearch } from "./components/searchEvent.js"
+
 
 export class App {
   constructor() {
     this.checkbox = document.getElementById("unitSwitch"); // Hämtar checkbox-elementet från HTML med id "unitSwitch"
     this.searchField = document.getElementById('search-field');
     this.searchBtn = document.getElementById('search-button');
+    initSearch(this);
     this.weatherContainer = document.getElementById("weather-container")
     this.add2watchlist = document.getElementById('add-2-watchlist');
     this.watchlist = document.getElementById('watchlist');
@@ -13,13 +16,6 @@ export class App {
     //TODO: check to see if the checkbox is checked for temperature conversion and change the url for meteo depending on it.
     this.storedWeather = {};
     this.storageKey = "savedCities";
-    this.searchField.addEventListener('keydown', async (event) => {
-      if (event.key === 'Enter') {
-        this.searchEvent()
-      }
-    })
-
-    this.searchBtn.addEventListener('click', this.searchEvent.bind(this))
 
     this.add2watchlist.addEventListener('click', () => {
       this.saveCityToWatchlist()
@@ -40,20 +36,6 @@ export class App {
       for (let item of localStorageData) {
         await this.getWeather(item.city);
         this.saveCityToWatchlist();
-      }
-  }
-
-  async searchEvent() {
-      try {
-        if (this.searchField.value.trim() === "") {
-          this.searchField.placeholder = "please enter a city"
-          return;
-        } else {
-          await this.getWeather(this.searchField.value);
-          this.searchField.value = "";
-        }
-      } catch (err) {
-          alert(`Error: Could not find a city with the name ${this.searchField.value}`)
       }
   }
 
