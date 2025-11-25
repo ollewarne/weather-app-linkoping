@@ -1,5 +1,4 @@
 import { getTemperatureFromCoordinates } from "../services/meteo.js";
-import { temperatureConverter, unitConverter } from "../utils/temperatureConverter.js";
 
 export class Weather {
 
@@ -76,21 +75,8 @@ export class Weather {
         this.paragraphDescription.textContent = `${this.weather}`;
         this.paragraph.appendChild(this.paragraphDescription);
 
-
-        /*
-        this.paragraph.innerHTML = `<span class="icon">${this.icon}</span> <span class="temp">${this.temperature}</span>
-        <span class="unit">${this.unit}</span> 
-        <span class="description">${this.weather}</span>
-        <span class="updated-at">LOCAL TIME?</span>`
-        */
-
         this.card.appendChild(this.title);
         this.card.appendChild(this.paragraph);
-
-        this.clockEl = document.createElement("div");
-        this.clockEl.classList.add("updated-time");
-        this.clockEl.id = `clock-${this.city}-${Date.now()}`;
-        this.card.appendChild(this.clockEl);
     }
 
 
@@ -148,19 +134,6 @@ export class Weather {
             this.isUpdating = false;     //  klart, nu får nästa köras
         }
     }
-
-
-    changeTemperatureAndUnit() {
-
-        this.temperature = temperatureConverter(this.temperature);
-        this.unit = unitConverter(this.unit);
-
-        let temp = this.card.querySelector(".temp");
-        temp.textContent = this.temperature;
-
-        let unit = this.card.querySelector(".unit");
-        unit.textContent = this.unit;
-    };
 
     addToWatchlist() {
         this.card.addEventListener('click', (event) => {

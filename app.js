@@ -5,7 +5,6 @@ import { initSearch } from "./components/searchEvent.js"
 
 export class App {
   constructor() {
-    this.checkbox = document.getElementById("unitSwitch"); // Hämtar checkbox-elementet från HTML med id "unitSwitch"
     this.searchField = document.getElementById('search-field');
     this.searchBtn = document.getElementById('search-button');
     initSearch(this);
@@ -13,7 +12,6 @@ export class App {
     this.add2watchlist = document.getElementById('add-2-watchlist');
     this.watchlist = document.getElementById('watchlist');
 
-    //TODO: check to see if the checkbox is checked for temperature conversion and change the url for meteo depending on it.
     this.storedWeather = {};
     this.storageKey = "savedCities";
 
@@ -70,12 +68,3 @@ export class App {
     localStorage.setItem(this.storageKey, JSON.stringify(this.storedWeather));
   }
 }
-
-//TODO: implement the temperature-change button
-
-// // Toggle temp
-//const checkbox = document.getElementById("unitSwitch"); // Hämtar checkbox-elementet från HTML med id "unitSwitch"
-//
-//checkbox.addEventListener('change', () => {
-//  theWeather.changeTemperatureAndUnit();
-//})
