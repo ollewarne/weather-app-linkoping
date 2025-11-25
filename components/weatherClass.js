@@ -54,7 +54,6 @@ export class Weather {
         this.title = document.createElement("h2");
         this.title.innerHTML = `${this.city}<span class="country-code">, ${this.country}</span>`
 
-    //TODO: make this paragraph less horrible
         this.paragraph = document.createElement("p")
 
         this.paragraphIcon = document.createElement('i');
@@ -133,7 +132,8 @@ export class Weather {
             temp.textContent = this.temperature;
 
             const icon = this.card.querySelector(".icon");
-            icon.innerHTML = this.icon;
+            const oldIcon = [...icon.classList].find(iconClass => iconClass !== "icon");
+            if (oldIcon) icon.classList.replace(oldIcon, this.icon);
 
             const desc = this.card.querySelector(".description");
             desc.textContent = this.weather;
