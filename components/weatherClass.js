@@ -52,11 +52,38 @@ export class Weather {
         this.card.classList.add("weather-card")
 
         this.title = document.createElement("h2");
-        this.title.innerHTML = `${this.city}, ${this.country}`
+        this.title.innerHTML = `${this.city}<span class="country-code">, ${this.country}</span>`
+
+    //TODO: make this paragraph less horrible
         this.paragraph = document.createElement("p")
 
-        //TODO: make this paragraph less horrible
-        this.paragraph.innerHTML = `<span class="icon">${this.icon}</span> <span class="temp">${this.temperature}</span><span class="unit">${this.unit}</span> <span class="description">${this.weather}</span><span class="updated-at">LOCAL TIME?</span>`
+        this.paragraphIcon = document.createElement('i');
+        this.paragraphIcon.classList.add('icon');
+        this.paragraphIcon.classList.add(this.icon);
+        this.paragraph.appendChild(this.paragraphIcon);
+
+        this.paragraphTemp = document.createElement('span');
+        this.paragraphTemp.classList.add('temp');
+        this.paragraphTemp.textContent = `${this.temperature}`;
+        this.paragraph.appendChild(this.paragraphTemp);
+
+        this.paragraphUnit = document.createElement('span');
+        this.paragraphUnit.classList.add('unit');
+        this.paragraphUnit.textContent = `${this.unit}`;
+        this.paragraph.appendChild(this.paragraphUnit);
+
+        this.paragraphDescription = document.createElement('span');
+        this.paragraphDescription.classList.add('description');
+        this.paragraphDescription.textContent = `${this.weather}`;
+        this.paragraph.appendChild(this.paragraphDescription);
+
+
+        /*
+        this.paragraph.innerHTML = `<span class="icon">${this.icon}</span> <span class="temp">${this.temperature}</span>
+        <span class="unit">${this.unit}</span> 
+        <span class="description">${this.weather}</span>
+        <span class="updated-at">LOCAL TIME?</span>`
+        */
 
         this.card.appendChild(this.title);
         this.card.appendChild(this.paragraph);
