@@ -38,9 +38,22 @@
                 </div>
 
                 <div class="search">
-                    <input id="search-field" type="text" placeholder="Search city">
-                    <button id="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <div class="search-wrapper">
+                        <input
+                        id="search-field"
+                        type="text"
+                        placeholder="Search city"
+                        autocomplete="off"
+                        >
+
+                        <button id="search-button">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+
+                        <ul id="search-suggestions" class="search-suggestions" hidden></ul>
+                    </div>
                 </div>
+
             </div>
         </section>
         <!-- END -- MAIN-CLOUD -->
