@@ -1,0 +1,36 @@
+const queue = [];
+let isRunning = false;
+
+// körs automatiskt var 0.1 sekund ifall vi ska göra mera än 10 måste ändra annars blir 429 fel
+setInterval(processNext, 100);
+
+function processNext() {
+  if (isRunning) return;
+  if (queue.length === 0) return;
+
+  const { task, resolve, reject } = queue.shift();
+  isRunning = true;
+
+  // kör själva API–anropet
+  task()
+    .then((result) => {
+      resolve(result);
+    })
+    .catch((error) => {
+      reject(error);
+    })
+    .finally(() => {
+      isRunning = false;
+    });
+}
+
+    // Används av meteo.js
+    export function enqueueRequest(taskFn) {
+    return new Promise((resolve, reject) => {
+        queue.push({ task: taskFn, resolve, reject });
+
+        if (!isRunning) {
+        processNext();   
+        }
+    });
+    }
