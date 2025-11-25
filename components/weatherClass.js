@@ -41,7 +41,7 @@ export class Weather {
                 this.updateWeatherCard();
                 this.count++;
             }
-        }, 1000);
+        }, 100);
 
         this.createWeatherCard();
     }
