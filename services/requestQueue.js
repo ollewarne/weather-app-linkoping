@@ -1,7 +1,7 @@
 const queue = [];
 let isRunning = false;
 
-// körs automatiskt var sekund
+// körs automatiskt var 0.1 sekund ifall vi ska göra mera än 10 måste ändra annars blir 429 fel
 setInterval(processNext, 100);
 
 function processNext() {
@@ -24,13 +24,13 @@ function processNext() {
     });
 }
 
-// Används av meteo.js
-export function enqueueRequest(taskFn) {
-  return new Promise((resolve, reject) => {
-    queue.push({
-      task: taskFn,
-      resolve,
-      reject,
+    // Används av meteo.js
+    export function enqueueRequest(taskFn) {
+    return new Promise((resolve, reject) => {
+        queue.push({ task: taskFn, resolve, reject });
+
+        if (!isRunning) {
+        processNext();   
+        }
     });
-  });
-}
+    }
