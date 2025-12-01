@@ -21,6 +21,7 @@ export class Weather {
         this.interval = data.interval;
         this.timeZone = data.timezone;
         this.unit = data.unit;
+        this.background = data.picture;
 
         let time = new Date(this.time);
         time.setMinutes(time.getMinutes() + Math.abs(time.getTimezoneOffset()));
@@ -43,8 +44,12 @@ export class Weather {
         }, 100);
 
         this.createWeatherCard();
+
+        this.changeBackground(this.background);
     }
 
+
+    // REPETATIV, REWRITE???
     createWeatherCard() {
         this.card = document.createElement("div")
         this.card.id = this.cityId;
@@ -154,4 +159,8 @@ export class Weather {
             clearInterval(this.timer);
         }
     };
+
+    changeBackground(pictureCode) {
+        document.body.style.backgroundImage = `url("./images/background_images/${pictureCode}.jpg")`
+    }
 };
