@@ -44,6 +44,7 @@ export async function getTemperatureFromCoordinates(lat, lon, city, cityId, coun
       unit: data.current_units.temperature_2m,
       time: data.current.time,
       interval: data.current.interval,
-      timeZone: data.timezone
+      timeZone: data.timezone,
+      picture: weatherCodes[data.current.weather_code].picture
    }
 }
