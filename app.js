@@ -43,6 +43,12 @@ export class App {
   async getWeather(searchInput) {
     let weatherData = await getWeatherFromCity(searchInput)
     this.currentWeatherSearch = new Weather(weatherData);
+    if (this.storedWeather[this.currentWeatherSearch.cityId]) {
+      this.storedWeather[this.currentWeatherSearch.cityId].removeCardFromWatchlist();
+      delete this.storedWeather[this.currentWeatherSearch.cityId];
+      this.saveCityToWatchlist();
+      return;
+    }
     this.placeDomElement(this.currentWeatherSearch.card)
   }
 
