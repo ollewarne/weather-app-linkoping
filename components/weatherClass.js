@@ -3,7 +3,6 @@ import { getTemperatureFromCoordinates } from "../services/meteo.js";
 export class Weather {
 
     next = 0;
-    count = 0;
     //delzar
     isUpdating = false;
 
@@ -21,6 +20,7 @@ export class Weather {
         this.interval = data.interval;
         this.timeZone = data.timezone;
         this.unit = data.unit;
+        this.background = data.picture;
 
         let time = new Date(this.time);
         time.setMinutes(time.getMinutes() + Math.abs(time.getTimezoneOffset()));
@@ -38,13 +38,16 @@ export class Weather {
 
             if (now >= this.next && !this.isUpdating) {
                 this.updateWeatherCard();
-                this.count++;
             }
         }, 100);
 
         this.createWeatherCard();
+
+        this.changeBackground(this.background);
     }
 
+
+    // REPETATIV, REWRITE???
     createWeatherCard() {
         this.card = document.createElement("div")
         this.card.id = this.cityId;
@@ -55,30 +58,25 @@ export class Weather {
 
         this.paragraph = document.createElement("p")
 
-        this.paragraphIcon = document.createElement('i');
-        this.paragraphIcon.classList.add('icon');
-        this.paragraphIcon.classList.add(this.icon);
-        this.paragraph.appendChild(this.paragraphIcon);
-
-        this.paragraphTemp = document.createElement('span');
-        this.paragraphTemp.classList.add('temp');
-        this.paragraphTemp.textContent = `${this.temperature}`;
-        this.paragraph.appendChild(this.paragraphTemp);
-
-        this.paragraphUnit = document.createElement('span');
-        this.paragraphUnit.classList.add('unit');
-        this.paragraphUnit.textContent = `${this.unit}`;
-        this.paragraph.appendChild(this.paragraphUnit);
-
-        this.paragraphDescription = document.createElement('span');
-        this.paragraphDescription.classList.add('description');
-        this.paragraphDescription.textContent = `${this.weather}`;
-        this.paragraph.appendChild(this.paragraphDescription);
+        this.paragraph.append(
+            this.createDomElement('i', 'icon'),
+            this.createDomElement('span', 'temp', this.temperature),
+            this.createDomElement('span', 'unit', this.unit),
+            this.createDomElement('span', 'description', this.weather)
+        )
 
         this.card.appendChild(this.title);
         this.card.appendChild(this.paragraph);
     }
 
+    createDomElement(type, elClass, content) {
+        const element = document.createElement(type);
+        element.classList.add(elClass);
+        if (content) {
+            element.textContent = content;
+        }
+        return element;
+    }
 
     async updateWeather() {
         console.log("update weather", this.city)
@@ -127,9 +125,6 @@ export class Weather {
             const unit = this.card.querySelector(".unit");
             unit.textContent = this.unit;
 
-            if (this.count > 1) {
-                unit.textContent = this.unit + " *";
-            }
         } finally {
             this.isUpdating = false;     //  klart, nu får nästa köras
         }
@@ -154,4 +149,8 @@ export class Weather {
             clearInterval(this.timer);
         }
     };
+
+    changeBackground(pictureCode) {
+        document.body.style.backgroundImage = `url("./images/background_images/${pictureCode}.jpg")`
+    }
 };
