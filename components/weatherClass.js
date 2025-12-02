@@ -58,30 +58,25 @@ export class Weather {
 
         this.paragraph = document.createElement("p")
 
-        this.paragraphIcon = document.createElement('i');
-        this.paragraphIcon.classList.add('icon');
-        this.paragraphIcon.classList.add(this.icon);
-        this.paragraph.appendChild(this.paragraphIcon);
-
-        this.paragraphTemp = document.createElement('span');
-        this.paragraphTemp.classList.add('temp');
-        this.paragraphTemp.textContent = `${this.temperature}`;
-        this.paragraph.appendChild(this.paragraphTemp);
-
-        this.paragraphUnit = document.createElement('span');
-        this.paragraphUnit.classList.add('unit');
-        this.paragraphUnit.textContent = `${this.unit}`;
-        this.paragraph.appendChild(this.paragraphUnit);
-
-        this.paragraphDescription = document.createElement('span');
-        this.paragraphDescription.classList.add('description');
-        this.paragraphDescription.textContent = `${this.weather}`;
-        this.paragraph.appendChild(this.paragraphDescription);
+        this.paragraph.append(
+            this.createDomElement('i', 'icon'),
+            this.createDomElement('span', 'temp', this.temperature),
+            this.createDomElement('span', 'unit', this.unit),
+            this.createDomElement('span', 'description', this.weather)
+        )
 
         this.card.appendChild(this.title);
         this.card.appendChild(this.paragraph);
     }
 
+    createDomElement(type, elClass, content) {
+        const element = document.createElement(type);
+        element.classList.add(elClass);
+        if (content) {
+            element.textContent = content;
+        }
+        return element;
+    }
 
     async updateWeather() {
         console.log("update weather", this.city)
