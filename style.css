@@ -67,6 +67,12 @@ body {
 
 #watchlist, #weather-container {
   width: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+#watchlist > .weather-card {
+  cursor: pointer;
 }
 
 .weather-card {
