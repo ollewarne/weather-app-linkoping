@@ -3,7 +3,6 @@ import { getTemperatureFromCoordinates } from "../services/meteo.js";
 export class Weather {
 
     next = 0;
-    count = 0;
     //delzar
     isUpdating = false;
 
@@ -39,7 +38,6 @@ export class Weather {
 
             if (now >= this.next && !this.isUpdating) {
                 this.updateWeatherCard();
-                this.count++;
             }
         }, 100);
 
@@ -132,9 +130,6 @@ export class Weather {
             const unit = this.card.querySelector(".unit");
             unit.textContent = this.unit;
 
-            if (this.count > 1) {
-                unit.textContent = this.unit + " *";
-            }
         } finally {
             this.isUpdating = false;     //  klart, nu får nästa köras
         }
