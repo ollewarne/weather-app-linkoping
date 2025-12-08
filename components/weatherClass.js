@@ -44,6 +44,7 @@ export class Weather {
         this.createWeatherCard();
 
         this.changeBackground(this.background);
+        
     }
 
 
@@ -152,14 +153,27 @@ export class Weather {
 
     changeBackground(pictureCode) {
 
-        document.body.style.backgroundImage = `
-            image-set(
-                url("./images/background_images/${pictureCode}_800.webp") type("image/webp") 1x,
-                url("./images/background_images/${pictureCode}_1400.webp") type("image/webp") 2x,
-                url("./images/background_images/${pictureCode}_2000.webp") type("image/webp") 3x,
-                url("./images/background_images/${pictureCode}.jpeg") type("image/jpeg") 1x
-            )
-        `;
+        if (window.matchMedia('(max-width: 640px)').matches) {
+            document.body.style.backgroundImage = `url("./images/background_images/${pictureCode}_900.webp")`
+            // document.body.style.backgroundColor = 'green';
+
+        } else if (window.matchMedia('(max-width: 960px)').matches) {
+            document.body.style.backgroundImage = `url("./images/background_images/${pictureCode}_2200.webp")`
+            // document.body.style.backgroundColor = 'blue';
+
+        } else {
+            document.body.style.backgroundImage = `url("./images/background_images/${pictureCode}.jpg")`
+            // document.body.style.backgroundColor = 'pink';
+        };
+
+        // document.body.style.backgroundImage = `
+        //     image-set(
+        //         url("./images/background_images/${pictureCode}_900.webp") type("image/webp") 1x,
+        //         url("./images/background_images/${pictureCode}_1600.webp") type("image/webp") 2x,
+        //         url("./images/background_images/${pictureCode}_2200.webp") type("image/webp") 3x,
+        //         url("./images/background_images/${pictureCode}.jpeg") type("image/jpeg") 1x
+        //     )
+        // `;
 
     };
 };

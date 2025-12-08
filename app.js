@@ -49,6 +49,7 @@ export class App {
       this.saveCityToWatchlist();
       return;
     }
+    this.weatherContainer.parentNode.classList.remove('no-show');
     this.placeDomElement(this.currentWeatherSearch.card)
   }
 
