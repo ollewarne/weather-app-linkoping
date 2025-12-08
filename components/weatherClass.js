@@ -161,7 +161,6 @@ export class Weather {
     };
 
     changeBackground(pictureCode) {
-        // document.body.style.backgroundImage = `url("./images/background_images/${pictureCode}.jpg")`
 
         document.body.style.backgroundImage = `
             image-set(
