@@ -59,7 +59,7 @@ export class Weather {
         this.paragraph = document.createElement("p")
 
         this.paragraph.append(
-            this.createDomElement('i', 'icon'),
+            this.createDomElement('i', this.icon),
             this.createDomElement('span', 'temp', this.temperature),
             this.createDomElement('span', 'unit', this.unit),
             this.createDomElement('span', 'description', this.weather)
