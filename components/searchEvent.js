@@ -1,4 +1,3 @@
-// components/searchEvent.js
 import { setupSuggestions } from "./searchSuggestions.js";
 
 async function searchCities(query) {
