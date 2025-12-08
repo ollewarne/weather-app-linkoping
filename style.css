@@ -307,3 +307,8 @@ main {
     margin-bottom: 1em;
   }
 }
+
+
+.search-suggestions__item--active {
+  background-color: #e6efff;
+}
