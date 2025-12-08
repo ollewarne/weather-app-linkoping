@@ -9,14 +9,13 @@ if [ -z "$DIR" ]; then
   exit 1
 fi
 
-# Only treat these as input formats (no webp!)
 extensions=("jpg" "jpeg" "png" "tiff")
 
 for ext in "${extensions[@]}"; do
   for INPUT in "$DIR"/*."$ext"; do
     [ -e "$INPUT" ] || continue
 
-    # Skip files that were already generated (contain _2200, _1600, _900)
+    # Skip already created files
     if [[ "$INPUT" =~ _2200\. || "$INPUT" =~ _1600\. || "$INPUT" =~ _900\. ]]; then
       continue
     fi
@@ -27,11 +26,13 @@ for ext in "${extensions[@]}"; do
     for width in 2200 1600 900; do
 
       if [ "$width" -eq 900 ]; then
-        # Portrait — aspect ratio 10:16
-        height=$(( width * 16 / 10 ))
+        # Portrait → 10:16
+        target_w=900
+        target_h=$((900 * 16 / 10))       # = 1440
       else
-        # Landscape — aspect ratio 16:10
-        height=$(( width * 10 / 16 ))
+        # Landscape → 16:10
+        target_w=$width
+        target_h=$((width * 10 / 16))     # 2200→1375, 1600→1000
       fi
 
       OUTPUT="${dirpath}/${filename}_${width}.webp"
@@ -41,12 +42,14 @@ for ext in "${extensions[@]}"; do
         continue
       fi
 
-      ffmpeg -i "$INPUT" -vf "scale=${width}:${height}:force_original_aspect_ratio=decrease,pad=${width}:${height}:(ow-iw)/2:(oh-ih)/2" \
+      # Scale to fill (overshoot) then crop center
+      ffmpeg -i "$INPUT" -vf \
+        "scale=w=${target_w}:h=${target_h}:force_original_aspect_ratio=increase,\
+crop=${target_w}:${target_h}" \
         -c:v libwebp -qscale 80 "$OUTPUT"
 
-      echo "Created: $OUTPUT (${width}x${height})"
+      echo "Created: $OUTPUT (${target_w}x${target_h})"
     done
-
   done
 done
 
