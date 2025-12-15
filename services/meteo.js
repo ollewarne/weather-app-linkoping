@@ -16,8 +16,17 @@ export async function getWeatherFromCity(city) {
    return await getTemperatureFromCoordinates(latitude, longitude, cityName, cityId)
 }
 
+<<<<<<< Updated upstream
 async function getTemperatureFromCoordinates(lat, lon, city, cityId) {
    const response = await fetch(createTemperatureURL(lat, lon));
+=======
+
+export async function getTemperatureFromCoordinates(lat, lon, city, cityId, country) {
+
+   let url = createTemperatureURL(lat, lon);
+
+   const response = await enqueueRequest(() => fetch(url));
+>>>>>>> Stashed changes
    if (!response.ok)
       throw new Error(console.log("Got HTTP-error ", response.status));
    const data = await response.json();

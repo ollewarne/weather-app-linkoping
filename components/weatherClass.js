@@ -5,6 +5,7 @@ import { startAutoUpdate } from "./auto-refresh.js";
 
 export class Weather {
 
+<<<<<<< Updated upstream
     constructor(data) {
         this.cityId = data.id,
         this.city = data.city,
@@ -15,14 +16,52 @@ export class Weather {
         this.date = data.date,
         this.timeZone = data.timezone,
         this.unit = '℃' //DEFAULT 
+=======
+    next = 0;
+    isUpdating = false;
+
+    constructor(data) {
+        this.data = data;
+        this.lat = data.lat;
+        this.lon = data.lon;
+        this.cityId = data.cityId;
+        this.city = data.city;
+        this.country = data.country;
+        this.temperature = data.temperature;
+        this.weather = data.weather;
+        this.icon = data.icon;
+        this.time = data.time;
+        this.interval = data.interval;
+        this.timeZone = data.timezone;
+        this.unit = data.unit;
+        this.background = data.picture;
+
+        let time = new Date(this.time);
+        time.setMinutes(time.getMinutes() + Math.abs(time.getTimezoneOffset()));
+        this.next = time.getTime() + this.interval * 1000;
+
+        this.timer = setInterval(() => {
+            const now = Date.now();
+
+            if (now >= this.next && !this.isUpdating) {
+                this.updateWeatherCard();
+            }
+        }, 100);
+>>>>>>> Stashed changes
 
         this.createWeatherCard();
         // this.clock = new TimeDisplay(this.clockEl.id, 'Senast uppdaterad:');
         // this.intervalId = startAutoUpdate(this, 'updateWeatherCard', 10000);
 
+<<<<<<< Updated upstream
     }
 
 
+=======
+        this.changeBackground(this.background);
+    }
+
+>>>>>>> Stashed changes
     createWeatherCard() {
         this.card = document.createElement("div")
         this.card.id = this.cityId;
@@ -42,6 +81,7 @@ export class Weather {
     }
 
     async updateWeather() {
+<<<<<<< Updated upstream
         const weatherData = await getWeatherFromCity(this.city);
         this.temperature = weatherData.temperature;
         this.weather = weatherData.weather;
@@ -54,6 +94,31 @@ export class Weather {
         await this.updateWeather();
 
         this.title.innerHTML = `${this.city} ${this.icon}`;
+=======
+        const weatherData = await getTemperatureFromCoordinates(
+            this.lat,
+            this.lon,
+            this.city,
+            this.cityId,
+            this.country
+        );
+
+        if (weatherData) {
+            this.temperature = weatherData.temperature;
+            this.weather = weatherData.weather;
+            this.icon = weatherData.icon;
+            this.time = weatherData.time;
+            this.interval = weatherData.interval;
+
+            let time = new Date(this.time);
+            time.setMinutes(time.getMinutes() + Math.abs(time.getTimezoneOffset()));
+            this.next = time.getTime() + (this.interval * 1000);
+        }
+    }
+
+    async updateWeatherCard() {
+        if (this.isUpdating) return;   //  om något redan körs, gör inget
+>>>>>>> Stashed changes
 
         const temp = this.card.querySelector(".temp");
         temp.textContent = this.temperature;
@@ -88,9 +153,29 @@ export class Weather {
     }
 
     removeCardFromWatchlist(event) {
+<<<<<<< Updated upstream
         document.getElementById(event.target.id).remove();
         if (this.intervalId) {
             clearInterval(this.intervalId);
+=======
+        this.card.remove();
+        // stoppa schemat när kortet tas bort
+        if (this.timer) {
+            clearInterval(this.timer);
+        }
+    };
+
+    changeBackground(pictureCode) {
+
+        if (window.matchMedia('(max-width: 640px)').matches) {
+            document.body.style.backgroundImage = `url("./images/background_images/${pictureCode}_900.webp")`
+
+        } else if (window.matchMedia('(max-width: 960px)').matches) {
+            document.body.style.backgroundImage = `url("./images/background_images/${pictureCode}_2200.webp")`
+
+        } else {
+            document.body.style.backgroundImage = `url("./images/background_images/${pictureCode}.jpg")`
+>>>>>>> Stashed changes
         };
     };
 
