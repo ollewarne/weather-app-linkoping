@@ -3,7 +3,6 @@ import { getTemperatureFromCoordinates } from "../services/meteo.js";
 export class Weather {
 
     next = 0;
-    //delzar
     isUpdating = false;
 
     constructor(data) {
@@ -26,13 +25,6 @@ export class Weather {
         time.setMinutes(time.getMinutes() + Math.abs(time.getTimezoneOffset()));
         this.next = time.getTime() + this.interval * 1000;
 
-        const delta = this.next - Date.now();
-        const nextDate = new Date(this.next);
-        console.log(
-            `[${this.city}] Nästa auto uppdatering kl ${nextDate.toLocaleTimeString()} ` +
-            `(om ${Math.round(delta / 1000)} sekunder)`
-        );
-
         this.timer = setInterval(() => {
             const now = Date.now();
 
@@ -44,11 +36,9 @@ export class Weather {
         this.createWeatherCard();
 
         this.changeBackground(this.background);
-        
     }
 
 
-    // REPETATIV, REWRITE???
     createWeatherCard() {
         this.card = document.createElement("div")
         this.card.id = this.cityId;
@@ -80,8 +70,14 @@ export class Weather {
     }
 
     async updateWeather() {
-        console.log("update weather", this.city)
-        const weatherData = await getTemperatureFromCoordinates(this.lat, this.lon, this.city, this.cityId, this.country);
+        const weatherData = await getTemperatureFromCoordinates(
+            this.lat,
+            this.lon,
+            this.city,
+            this.cityId,
+            this.country
+        );
+
         if (weatherData) {
             this.temperature = weatherData.temperature;
             this.weather = weatherData.weather;
@@ -92,21 +88,10 @@ export class Weather {
             let time = new Date(this.time);
             time.setMinutes(time.getMinutes() + Math.abs(time.getTimezoneOffset()));
             this.next = time.getTime() + (this.interval * 1000);
-
-            let now = new Date().getTime();
-            let delta = this.next - now;
-
-	    const nextDate = new Date(this.next);
-            console.log(
-            `[${this.city}] Nästa auto uppdatering kl ${nextDate.toLocaleTimeString()} ` +
-            `(om ${Math.round(delta / 1000)} sekunder)`
-            );
         }
     }
 
     async updateWeatherCard() {
-        console.log("update weather card");
-
         if (this.isUpdating) return;   //  om något redan körs, gör inget
 
         this.isUpdating = true;        //  markera att vi uppdaterar nu
@@ -143,7 +128,7 @@ export class Weather {
     }
 
 
-    removeCardFromWatchlist(event) {
+    removeCardFromWatchlist() {
         this.card.remove();
         // stoppa schemat när kortet tas bort
         if (this.timer) {
@@ -155,25 +140,12 @@ export class Weather {
 
         if (window.matchMedia('(max-width: 640px)').matches) {
             document.body.style.backgroundImage = `url("./images/background_images/${pictureCode}_900.webp")`
-            // document.body.style.backgroundColor = 'green';
 
         } else if (window.matchMedia('(max-width: 960px)').matches) {
             document.body.style.backgroundImage = `url("./images/background_images/${pictureCode}_2200.webp")`
-            // document.body.style.backgroundColor = 'blue';
 
         } else {
             document.body.style.backgroundImage = `url("./images/background_images/${pictureCode}.jpg")`
-            // document.body.style.backgroundColor = 'pink';
         };
-
-        // document.body.style.backgroundImage = `
-        //     image-set(
-        //         url("./images/background_images/${pictureCode}_900.webp") type("image/webp") 1x,
-        //         url("./images/background_images/${pictureCode}_1600.webp") type("image/webp") 2x,
-        //         url("./images/background_images/${pictureCode}_2200.webp") type("image/webp") 3x,
-        //         url("./images/background_images/${pictureCode}.jpeg") type("image/jpeg") 1x
-        //     )
-        // `;
-
     };
 };
