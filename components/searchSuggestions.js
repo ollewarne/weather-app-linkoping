@@ -8,7 +8,7 @@ export function setupSuggestions({ field, list, app, searchCities, handleSearch 
   const state = { activeIndex: -1 };
 
   function hideList() {
-    list.innerHTML = "";
+    list.replaceChildren();
     list.hidden = true;
     state.activeIndex = -1;
   }
@@ -52,7 +52,7 @@ export function setupSuggestions({ field, list, app, searchCities, handleSearch 
 
     const results = await searchCities(value);
 
-    list.innerHTML = "";
+    list.replaceChildren();
     state.activeIndex = -1;
 
     if (!results.length) {
