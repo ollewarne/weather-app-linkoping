@@ -47,9 +47,8 @@ export class Weather {
         this.card.setAttribute('aria-live', 'assertive');
         this.card.setAttribute('tabindex', '0');
 
-        // FUCKING INNERHTML FUCKING FUCK!!!!!!!!!!!!
         this.title = document.createElement("h2");
-        this.title.innerHTML = `${this.city}<span class="country-code">, ${this.country}</span>`
+        this.title.textContent = `${this.city}, ${this.country}`
         this.title.setAttribute('aria-hidden', 'true');
 
         this.paragraph = document.createElement("p");
