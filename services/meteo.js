@@ -25,8 +25,6 @@ export async function getTemperatureFromCoordinates(lat, lon, city, cityId, coun
 
    let url = createTemperatureURL(lat, lon);
 
-   console.log("kört call för " + city);
-
    const response = await enqueueRequest(() => fetch(url));
    if (!response.ok)
       throw new Error(console.log("Got HTTP-error ", response.status));

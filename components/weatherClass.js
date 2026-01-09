@@ -3,7 +3,6 @@ import { getTemperatureFromCoordinates } from "../services/meteo.js";
 export class Weather {
 
     next = 0;
-    //delzar
     isUpdating = false;
 
     constructor(data) {
@@ -26,13 +25,6 @@ export class Weather {
         time.setMinutes(time.getMinutes() + Math.abs(time.getTimezoneOffset()));
         this.next = time.getTime() + this.interval * 1000;
 
-        const delta = this.next - Date.now();
-        const nextDate = new Date(this.next);
-        console.log(
-            `[${this.city}] Nästa auto uppdatering kl ${nextDate.toLocaleTimeString()} ` +
-            `(om ${Math.round(delta / 1000)} sekunder)`
-        );
-
         this.timer = setInterval(() => {
             const now = Date.now();
 
@@ -47,23 +39,27 @@ export class Weather {
     }
 
 
-    // REPETATIV, REWRITE???
     createWeatherCard() {
         this.card = document.createElement("div")
         this.card.id = this.cityId;
         this.card.classList.add("weather-card")
+        this.card.setAttribute('aria-label', `Today in ${this.city}, ${this.country} it's ${this.weather} with a temperature of ${this.temperature}${this.unit}.`);
+        this.card.setAttribute('aria-live', 'assertive');
+        this.card.setAttribute('tabindex', '0');
 
         this.title = document.createElement("h2");
-        this.title.innerHTML = `${this.city}<span class="country-code">, ${this.country}</span>`
+        this.title.textContent = `${this.city}, ${this.country}`
+        this.title.setAttribute('aria-hidden', 'true');
 
-        this.paragraph = document.createElement("p")
+        this.paragraph = document.createElement("p");
+        this.paragraph.setAttribute('aria-hidden', 'true');
 
         this.paragraph.append(
             this.createDomElement('i', this.icon),
             this.createDomElement('span', 'temp', this.temperature),
             this.createDomElement('span', 'unit', this.unit),
             this.createDomElement('span', 'description', this.weather)
-        )
+        );
 
         this.card.appendChild(this.title);
         this.card.appendChild(this.paragraph);
@@ -79,8 +75,14 @@ export class Weather {
     }
 
     async updateWeather() {
-        console.log("update weather", this.city)
-        const weatherData = await getTemperatureFromCoordinates(this.lat, this.lon, this.city, this.cityId, this.country);
+        const weatherData = await getTemperatureFromCoordinates(
+            this.lat,
+            this.lon,
+            this.city,
+            this.cityId,
+            this.country
+        );
+
         if (weatherData) {
             this.temperature = weatherData.temperature;
             this.weather = weatherData.weather;
@@ -91,21 +93,10 @@ export class Weather {
             let time = new Date(this.time);
             time.setMinutes(time.getMinutes() + Math.abs(time.getTimezoneOffset()));
             this.next = time.getTime() + (this.interval * 1000);
-
-            let now = new Date().getTime();
-            let delta = this.next - now;
-
-	    const nextDate = new Date(this.next);
-            console.log(
-            `[${this.city}] Nästa auto uppdatering kl ${nextDate.toLocaleTimeString()} ` +
-            `(om ${Math.round(delta / 1000)} sekunder)`
-            );
         }
     }
 
     async updateWeatherCard() {
-        console.log("update weather card");
-
         if (this.isUpdating) return;   //  om något redan körs, gör inget
 
         this.isUpdating = true;        //  markera att vi uppdaterar nu
@@ -142,7 +133,7 @@ export class Weather {
     }
 
 
-    removeCardFromWatchlist(event) {
+    removeCardFromWatchlist() {
         this.card.remove();
         // stoppa schemat när kortet tas bort
         if (this.timer) {
@@ -152,14 +143,14 @@ export class Weather {
 
     changeBackground(pictureCode) {
 
-        document.body.style.backgroundImage = `
-            image-set(
-                url("./images/background_images/${pictureCode}_800.webp") type("image/webp") 1x,
-                url("./images/background_images/${pictureCode}_1400.webp") type("image/webp") 2x,
-                url("./images/background_images/${pictureCode}_2000.webp") type("image/webp") 3x,
-                url("./images/background_images/${pictureCode}.jpeg") type("image/jpeg") 1x
-            )
-        `;
+        if (window.matchMedia('(max-width: 640px)').matches) {
+            document.body.style.backgroundImage = `url("./images/background_images/${pictureCode}_900.webp")`
 
+        } else if (window.matchMedia('(max-width: 960px)').matches) {
+            document.body.style.backgroundImage = `url("./images/background_images/${pictureCode}_2200.webp")`
+
+        } else {
+            document.body.style.backgroundImage = `url("./images/background_images/${pictureCode}.jpg")`
+        };
     };
 };
