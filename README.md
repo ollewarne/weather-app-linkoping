@@ -51,3 +51,18 @@ Since this is a vanilla JavaScript project, setting it up locally is straightfor
     python3 -m http.server 8000
     ```
     Then, navigate to `http://localhost:8000` in your browser.
+
+## ✅ Run tests (Jest)
+
+This project includes unit tests for the keyboard suggestion components.
+
+1. Install dependencies
+npm install
+
+2. Run all tests
+npm test
+
+3. Run a specific test
+npm test escape
+npm test arrowUp
+npm test arrowDown
