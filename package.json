@@ -1,0 +1,25 @@
+{
+  "name": "weather-app-linkoping",
+  "version": "1.0.0",
+  "description": "A sleek, responsive, and easy-to-use frontend application for checking the current and forecasted weather in Linköping (and other locations).",
+  "main": "main.js",
+  "scripts": {
+    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ollewarne/weather-app-linkoping.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/ollewarne/weather-app-linkoping/issues"
+  },
+  "homepage": "https://github.com/ollewarne/weather-app-linkoping#readme",
+  "devDependencies": {
+    "jest": "^30.2.0",
+    "jest-environment-jsdom": "^30.2.0"
+  }
+}
